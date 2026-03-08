@@ -6,11 +6,11 @@ import { useState } from "react";
 import { CheckCircle } from "lucide-react";
 
 const benefits = [
-  "See a live walkthrough of leak detection",
-  "Get a custom savings estimate for your infrastructure",
-  "Learn how teams like yours reduced cloud spend by 20-35%",
-  "Understand the 5-minute onboarding process",
-  "Ask questions about security, compliance, and integrations",
+  "See how the leak detection actually works — live, with your questions",
+  "Get a rough savings estimate based on your cloud setup",
+  "Hear how teams similar to yours cut their bills by 20-35%",
+  "Walk through the 5-minute onboarding so you know what to expect",
+  "Ask us anything about security, compliance, or how it fits your stack",
 ];
 
 const ContactPage = () => {
@@ -24,8 +24,8 @@ const ContactPage = () => {
           <Section>
             <div className="max-w-lg mx-auto text-center">
               <CheckCircle className="w-12 h-12 text-success mx-auto mb-4" />
-              <h1 className="text-3xl font-bold text-foreground mb-3">Thanks for reaching out.</h1>
-              <p className="text-muted-foreground">Our team will get back to you within one business day.</p>
+              <h1 className="text-3xl font-bold text-foreground mb-3">Got it — we'll be in touch.</h1>
+              <p className="text-muted-foreground">Someone from our team will reach out within one business day. Talk soon.</p>
             </div>
           </Section>
         </div>
@@ -40,16 +40,15 @@ const ContactPage = () => {
       <div className="pt-32 pb-20">
         <Section>
           <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            {/* Left side — benefits */}
             <div>
               <span className="inline-block text-xs font-medium text-primary bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-6">
                 Book a Demo
               </span>
               <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-                See how much your team could save.
+                Let's look at your cloud spend together.
               </h1>
               <p className="text-muted-foreground mb-8 leading-relaxed">
-                Schedule a 30-minute walkthrough with our team. We'll show you how Cloud Cost Leak Detector works with your cloud setup and estimate your potential savings.
+                Book a 30-minute call with our team. We'll walk you through the product, answer your questions, and give you a rough idea of what you might be wasting. No pressure, no sales pitch marathon.
               </p>
               <ul className="space-y-3">
                 {benefits.map((b) => (
@@ -61,26 +60,25 @@ const ContactPage = () => {
               </ul>
             </div>
 
-            {/* Right side — form */}
             <div className="bg-card border border-border rounded-xl p-6 lg:p-8">
               <form
                 onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
                 className="space-y-4"
               >
-                <Field label="Full Name" name="name" placeholder="Jane Smith" />
+                <Field label="Your Name" name="name" placeholder="Jane Smith" />
                 <Field label="Work Email" name="email" type="email" placeholder="jane@company.com" />
                 <Field label="Company" name="company" placeholder="Acme Inc." />
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs text-muted-foreground mb-1.5 block">Cloud Providers</label>
+                    <label className="text-xs text-muted-foreground mb-1.5 block">Which clouds do you use?</label>
                     <select className="w-full h-10 px-3 bg-background border border-border rounded-md text-sm text-foreground">
                       <option>AWS</option>
                       <option>Azure</option>
                       <option>GCP</option>
-                      <option>Multi-cloud</option>
+                      <option>Multiple</option>
                     </select>
                   </div>
-                  <Field label="Monthly Cloud Spend" name="spend" placeholder="$50,000" />
+                  <Field label="Rough Monthly Spend" name="spend" placeholder="~$50,000" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -95,17 +93,17 @@ const ContactPage = () => {
                   <div />
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground mb-1.5 block">Message (optional)</label>
+                  <label className="text-xs text-muted-foreground mb-1.5 block">Anything else you want us to know?</label>
                   <textarea
                     className="w-full px-3 py-2 bg-background border border-border rounded-md text-sm text-foreground min-h-[80px] resize-none"
-                    placeholder="Tell us about your cloud cost challenges..."
+                    placeholder="Tell us what's on your mind..."
                   />
                 </div>
                 <Button variant="hero" size="lg" className="w-full" type="submit">
-                  Book Demo
+                  Book a Demo
                 </Button>
                 <p className="text-[10px] text-muted-foreground text-center">
-                  No commitment required. We'll respond within 24 hours.
+                  No strings attached. We'll get back to you within 24 hours.
                 </p>
               </form>
             </div>

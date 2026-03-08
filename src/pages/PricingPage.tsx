@@ -39,9 +39,8 @@ const PricingPage = () => {
       <div className="pt-24">
         <PricingSection />
 
-        {/* Comparison Table */}
         <Section>
-          <SectionHeader title="Detailed feature comparison" />
+          <SectionHeader title="Here's exactly what you get with each plan" />
           <div className="max-w-4xl mx-auto overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -66,13 +65,12 @@ const PricingPage = () => {
           </div>
         </Section>
 
-        {/* Enterprise CTA */}
         <Section>
           <div className="max-w-2xl mx-auto text-center bg-card border border-border rounded-xl p-8">
-            <h3 className="text-2xl font-bold text-foreground mb-3">Need a custom plan?</h3>
-            <p className="text-muted-foreground mb-6">Talk to our team about enterprise pricing, custom integrations, and dedicated support.</p>
+            <h3 className="text-2xl font-bold text-foreground mb-3">Need something different?</h3>
+            <p className="text-muted-foreground mb-6">If the standard plans don't fit, let's talk. We can put together something custom for your team — whether it's volume pricing, specific integrations, or dedicated support.</p>
             <Link to="/contact">
-              <Button variant="hero" size="lg">Contact Sales</Button>
+              <Button variant="hero" size="lg">Let's Chat</Button>
             </Link>
           </div>
         </Section>

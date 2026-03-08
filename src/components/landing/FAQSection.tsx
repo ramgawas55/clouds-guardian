@@ -7,16 +7,16 @@ import {
 } from "@/components/ui/accordion";
 
 const faqs = [
-  { q: "Is access read-only?", a: "Yes. We use read-only IAM roles and service principals. We never modify, delete, or create resources in your cloud accounts." },
-  { q: "Does this support AWS, Azure, and GCP?", a: "Yes. Cloud Cost Leak Detector provides full support for all three major cloud providers with unified dashboards and cross-cloud analysis." },
-  { q: "Can I detect Kubernetes waste?", a: "Absolutely. We analyze cluster utilization, node pool efficiency, namespace-level spend, and identify idle workloads and overprovisioned resources." },
-  { q: "Do you make changes automatically?", a: "No. All remediation actions require explicit confirmation through approval workflows. We suggest — you decide." },
-  { q: "How long does setup take?", a: "Most teams connect their first cloud account in under 5 minutes. No agents to install, no scripts to run. Just grant read-only access and we start scanning." },
-  { q: "Is this suitable for startups?", a: "Yes. Our Starter plan is built for small teams. Many startups discover 20-30% waste within their first week." },
-  { q: "Can finance teams use it too?", a: "Yes. We provide executive summaries, tag-based breakdowns, and exportable reports that finance and leadership teams can understand without engineering context." },
-  { q: "Do you support team alerts?", a: "Yes. Alerts go to Slack, Microsoft Teams, email, or custom webhooks. You can configure thresholds and assign ownership per resource or team." },
-  { q: "Can this work across multiple accounts?", a: "Yes. Growth and Enterprise plans support multiple cloud accounts and cross-account analysis from a single dashboard." },
-  { q: "What kind of savings can I expect?", a: "Most teams reduce their cloud bill by 15-35% within the first month. Savings depend on your infrastructure size and current optimization practices." },
+  { q: "Is access really read-only?", a: "Yes, 100%. We use read-only IAM roles and service principals. We literally cannot modify, delete, or create anything in your cloud accounts. That's a hard technical limitation, not just a policy." },
+  { q: "Does this work with AWS, Azure, and GCP?", a: "Yep, all three. You get a single dashboard that pulls in data from all your connected accounts, so you don't have to jump between tools." },
+  { q: "Can it detect Kubernetes waste?", a: "Absolutely. We look at cluster utilization, node pool sizing, namespace-level spend, and idle workloads. If your clusters are oversized, we'll tell you exactly where and by how much." },
+  { q: "Will it make changes to my infrastructure automatically?", a: "No. We suggest actions — you decide what to do. Every remediation requires your explicit approval. We're not going to delete your production database at 2 AM." },
+  { q: "How long does it actually take to set up?", a: "Most teams are up and running in under 5 minutes. You create a read-only IAM role, connect it, and we start scanning. No agents, no scripts, nothing to install on your servers." },
+  { q: "Is this useful for small startups?", a: "Very. Startups often have the most waste relative to their spend because they're moving fast and not thinking about cost optimization. Our Starter plan is built for exactly that." },
+  { q: "Can non-technical people use it? Like finance teams?", a: "Yes. We have executive summaries, tag-based breakdowns, and exportable reports that don't require engineering context to understand. Finance teams love it." },
+  { q: "How do team alerts work?", a: "You pick your channels — Slack, Microsoft Teams, email, or webhooks. Set thresholds for what matters to you (new leaks, budget limits, weekly summaries), and we handle the rest." },
+  { q: "Can this handle multiple cloud accounts?", a: "Yes. Our Growth plan supports up to 5 accounts, and Enterprise is unlimited. Everything shows up in one unified dashboard with cross-account analysis." },
+  { q: "What kind of savings should I realistically expect?", a: "It depends on your setup, but most teams find 15-35% of their cloud bill is going to waste. Some find more. The first scan usually surfaces the biggest wins." },
 ];
 
 export function FAQSection() {
@@ -24,7 +24,7 @@ export function FAQSection() {
     <Section id="faq">
       <SectionHeader
         badge="FAQ"
-        title="Frequently asked questions."
+        title="Questions people actually ask us."
       />
       <div className="max-w-3xl mx-auto">
         <Accordion type="single" collapsible className="space-y-2">

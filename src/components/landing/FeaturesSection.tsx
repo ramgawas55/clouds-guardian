@@ -5,18 +5,18 @@ import {
 } from "lucide-react";
 
 const features = [
-  { icon: Cloud, title: "Multi-Cloud Support", desc: "Unified visibility across AWS, Azure, and GCP from a single dashboard." },
-  { icon: Scan, title: "Automated Leak Detection", desc: "Continuous scans identify idle, orphaned, and overprovisioned resources automatically." },
-  { icon: Scaling, title: "Rightsizing Recommendations", desc: "Data-driven suggestions to match instance size to actual utilization." },
-  { icon: Ship, title: "Kubernetes Waste Analysis", desc: "Detect overprovisioned node pools, idle workloads, and unused namespaces." },
-  { icon: BarChart3, title: "Daily Savings Reports", desc: "Automated daily digests of new waste found and savings captured." },
-  { icon: Bell, title: "Team Alerts & Approvals", desc: "Slack, Teams, and email alerts with approval workflows for remediation." },
-  { icon: Tag, title: "Tag-Based Cost Breakdown", desc: "Drill into spend by team, project, environment, or custom tags." },
-  { icon: TrendingUp, title: "Historical Spend Trends", desc: "Track cost patterns over time to identify anomalies and drift." },
-  { icon: Users, title: "Resource Ownership Insights", desc: "Know which team owns every resource and who should take action." },
-  { icon: Wrench, title: "Smart Remediation Suggestions", desc: "Prioritized actions with estimated savings and risk assessment." },
-  { icon: CalendarClock, title: "Scheduled Shutdown Automation", desc: "Auto-stop non-production workloads during off-hours and weekends." },
-  { icon: FileText, title: "Executive Savings Summaries", desc: "Shareable reports for leadership with clear ROI and cost trends." },
+  { icon: Cloud, title: "Multi-Cloud Support", desc: "See AWS, Azure, and GCP side by side. One dashboard for everything." },
+  { icon: Scan, title: "Automated Leak Detection", desc: "Scans run continuously, so you catch waste as it happens — not months later." },
+  { icon: Scaling, title: "Rightsizing Recommendations", desc: "We look at what your instances actually use, then suggest what they should be." },
+  { icon: Ship, title: "Kubernetes Waste Analysis", desc: "Find overprovisioned node pools, idle pods, and namespaces nobody's touched in weeks." },
+  { icon: BarChart3, title: "Daily Savings Reports", desc: "Wake up to a summary of what we found overnight and how much you can save today." },
+  { icon: Bell, title: "Team Alerts & Approvals", desc: "Get notified on Slack, Teams, or email. Nothing gets changed without someone approving it first." },
+  { icon: Tag, title: "Tag-Based Cost Breakdown", desc: "Break down spend by team, project, or environment. Finally know who's spending what." },
+  { icon: TrendingUp, title: "Historical Spend Trends", desc: "See how your costs have moved over time. Spot anomalies before they become the new normal." },
+  { icon: Users, title: "Resource Ownership Insights", desc: "Every resource gets an owner. No more \"who spun this up?\" conversations." },
+  { icon: Wrench, title: "Smart Remediation Suggestions", desc: "Not just \"this is wasted\" — we tell you exactly what to do about it, ranked by impact." },
+  { icon: CalendarClock, title: "Scheduled Shutdown Automation", desc: "Turn off dev and staging environments at night and on weekends. Simple as that." },
+  { icon: FileText, title: "Executive Savings Summaries", desc: "Need to show leadership what you saved this quarter? We've got a report for that." },
 ];
 
 export function FeaturesSection() {
@@ -24,8 +24,8 @@ export function FeaturesSection() {
     <Section id="features">
       <SectionHeader
         badge="Features"
-        title="Everything you need to eliminate cloud waste."
-        description="Purpose-built for DevOps, SRE, and FinOps teams who need actionable cost intelligence — not just dashboards."
+        title="Built for the people who actually manage cloud infrastructure."
+        description="Not another fancy dashboard you'll never open. These are tools that help you do something about waste."
       />
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {features.map((f) => (

@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 const plans = [
   {
     name: "Starter",
-    desc: "For solo engineers and small teams getting started with cost visibility.",
+    desc: "Good for solo engineers or small teams who want to see what they're wasting.",
     monthly: 49,
     yearly: 39,
     features: [
-      "Single cloud account",
+      "1 cloud account",
       "Weekly scans",
       "Email reports",
       "Basic leak detection",
@@ -23,7 +23,7 @@ const plans = [
   },
   {
     name: "Growth",
-    desc: "For startups and scaling teams with multi-cloud infrastructure.",
+    desc: "For teams running multi-cloud setups who need daily visibility and alerts.",
     monthly: 199,
     yearly: 159,
     features: [
@@ -41,7 +41,7 @@ const plans = [
   },
   {
     name: "Enterprise",
-    desc: "For organizations that need full control, SSO, and dedicated onboarding.",
+    desc: "For organizations that need SSO, custom policies, and someone to help them get started.",
     monthly: null,
     yearly: null,
     features: [
@@ -56,7 +56,7 @@ const plans = [
       "Audit logs",
       "Compliance reports",
     ],
-    cta: "Contact Sales",
+    cta: "Talk to Us",
     popular: false,
   },
 ];
@@ -68,11 +68,10 @@ export function PricingSection() {
     <Section id="pricing">
       <SectionHeader
         badge="Pricing"
-        title="Simple, transparent pricing."
-        description="Start free. Scale as your cloud footprint grows. No hidden fees."
+        title="Pay for what you need. Nothing more."
+        description="No surprise charges, no per-seat fees that spiral out of control. Pick a plan and go."
       />
 
-      {/* Toggle */}
       <div className="flex items-center justify-center gap-3 mb-10">
         <span className={`text-sm ${!annual ? "text-foreground" : "text-muted-foreground"}`}>Monthly</span>
         <button

@@ -20,8 +20,8 @@ export function IntegrationsSection() {
     <Section id="integrations">
       <SectionHeader
         badge="Integrations"
-        title="Works with your existing stack."
-        description="Connect your cloud providers, monitoring tools, and communication channels in minutes."
+        title="Plugs into the tools you already use."
+        description="Connect your cloud accounts, hook up Slack or Teams for alerts, and pull metrics from your existing monitoring stack. No new workflows to learn."
       />
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
         {integrations.map((i) => (
