@@ -1,12 +1,12 @@
 import { CalendarClock, Scaling, HardDrive, Camera, Ship, Globe } from "lucide-react";
 
 const recommendations = [
-  { icon: CalendarClock, title: "Schedule nightly shutdown for dev environments", impact: "$1,240/mo", priority: "High", desc: "15 dev instances run 24/7. Shutting down 8pm-8am saves 50% on non-prod compute." },
-  { icon: Scaling, title: "Resize low-utilization EC2 instances", impact: "$890/mo", priority: "High", desc: "7 instances averaging <15% CPU. Downsizing from m5.xlarge to m5.large cuts cost in half." },
-  { icon: HardDrive, title: "Delete 23 unattached EBS volumes", impact: "$420/mo", priority: "Medium", desc: "Orphaned volumes from terminated instances. No snapshots needed — data already archived." },
-  { icon: Camera, title: "Archive old snapshots older than 90 days", impact: "$310/mo", priority: "Medium", desc: "47 snapshots older than 90 days. Move to Glacier or delete if backups exist elsewhere." },
-  { icon: Ship, title: "Reduce Kubernetes node overcapacity", impact: "$1,640/mo", priority: "Critical", desc: "Three node pools running at 18% avg utilization. Scale down from 12 to 6 nodes." },
-  { icon: Globe, title: "Move staging workloads to cheaper regions", impact: "$380/mo", priority: "Low", desc: "Staging runs in ap-south-1. Moving to us-east-1 saves 22% on compute and egress." },
+  { icon: CalendarClock, title: "Shut down dev environments at night", impact: "$1,240/mo", priority: "High", desc: "You've got 15 dev instances running around the clock. Turn them off from 8pm to 8am and you'll cut non-prod compute costs in half." },
+  { icon: Scaling, title: "Downsize 7 oversized EC2 instances", impact: "$890/mo", priority: "High", desc: "These instances are averaging under 15% CPU. Dropping from m5.xlarge to m5.large would save you real money with zero performance impact." },
+  { icon: HardDrive, title: "Clean up 23 orphaned EBS volumes", impact: "$420/mo", priority: "Medium", desc: "These volumes lost their instances weeks ago. The data's already backed up — they're just sitting there costing you." },
+  { icon: Camera, title: "Deal with 47 old snapshots", impact: "$310/mo", priority: "Medium", desc: "Snapshots older than 90 days that nobody's looked at. Either move them to Glacier or delete them if the data exists elsewhere." },
+  { icon: Ship, title: "Scale down your Kubernetes node pools", impact: "$1,640/mo", priority: "Critical", desc: "Three node pools running at 18% utilization. You could go from 12 nodes to 6 and still have plenty of headroom." },
+  { icon: Globe, title: "Consider cheaper regions for staging", impact: "$380/mo", priority: "Low", desc: "Your staging workloads are in ap-south-1. Moving them to us-east-1 would save about 22% on compute and egress." },
 ];
 
 const priorityColor: Record<string, string> = {
