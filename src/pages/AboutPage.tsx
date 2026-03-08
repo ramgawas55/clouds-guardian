@@ -5,17 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const principles = [
-  { title: "Clarity", desc: "Every dollar of cloud spend should be visible, attributable, and understood." },
-  { title: "Accountability", desc: "Every resource should have an owner. Orphaned infrastructure is wasted infrastructure." },
-  { title: "Automation", desc: "Manual cost reviews don't scale. Detection, alerts, and reporting should run continuously." },
-  { title: "Cost Discipline", desc: "Cloud efficiency isn't about cutting corners — it's about spending intentionally." },
+  { title: "Clarity", desc: "If you can't see where the money's going, you can't control it. Every dollar should be visible and attributable." },
+  { title: "Accountability", desc: "Every resource should have an owner. When nobody owns it, nobody cleans it up — and you keep paying for it." },
+  { title: "Automation", desc: "Manually auditing cloud resources doesn't scale. Detection, alerts, and reporting need to happen on their own." },
+  { title: "Cost Discipline", desc: "Being efficient with cloud spend isn't about being cheap. It's about spending intentionally instead of accidentally." },
 ];
 
 const timeline = [
-  { year: "2023", event: "Founded after seeing teams waste $2M+ annually on idle cloud resources." },
-  { year: "2024", event: "Launched multi-cloud support for AWS, Azure, and GCP with Kubernetes analysis." },
-  { year: "2025", event: "Reached 500+ engineering teams and $40M+ in identified annual savings." },
-  { year: "2026", event: "Expanding into automated remediation, policy enforcement, and FinOps workflows." },
+  { year: "2023", event: "Started the company after watching teams waste $2M+ a year on idle cloud resources and not even know it." },
+  { year: "2024", event: "Built out multi-cloud support for AWS, Azure, and GCP. Added Kubernetes waste analysis because everyone asked for it." },
+  { year: "2025", event: "Crossed 500 engineering teams using the platform. Identified over $40M in annual savings across our user base." },
+  { year: "2026", event: "Working on automated remediation, policy enforcement, and deeper FinOps workflows. Lots more coming." },
 ];
 
 const AboutPage = () => {
@@ -23,35 +23,32 @@ const AboutPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-32">
-        {/* Hero */}
         <Section>
           <div className="max-w-3xl mx-auto text-center">
             <span className="inline-block text-xs font-medium text-primary bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-6">About Us</span>
             <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              Cloud waste is a silent tax on every engineering team.
+              We built this because we lived the problem.
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              We built Cloud Cost Leak Detector because we lived the problem. Every team we worked with was overspending on cloud — not because they were careless, but because visibility was terrible. We're fixing that.
+              Every engineering team we've worked with was overspending on cloud. Not because they were careless, but because there was no easy way to see what was being wasted. So we built the tool we wished we had.
             </p>
           </div>
         </Section>
 
-        {/* Mission */}
         <Section>
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold text-foreground mb-4">Why cloud waste gets ignored</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Why does cloud waste keep getting ignored?</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Cloud billing is complex by design. Resources get created during deployments, experiments, and incidents — then forgotten. Teams don't have time to audit every EC2 instance, every snapshot, every idle load balancer. The bill grows, and nobody questions it because "that's just what cloud costs."
+              Honestly? Because cloud billing is a mess. Resources get created during deploys, experiments, and incidents — and then everyone moves on to the next thing. Nobody goes back to check if that staging cluster is still running, or if those snapshots from six months ago are still needed. The bill grows, and after a while, people just assume that's what cloud costs.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Engineering teams see infrastructure. Finance teams see invoices. Neither side has a shared view of what's being used, what's wasted, and what can be safely eliminated. Cloud Cost Leak Detector bridges that gap with automated detection, clear ownership, and actionable recommendations.
+              Engineering sees infrastructure. Finance sees invoices. Neither team has the full picture. Cloud Cost Leak Detector gives both sides a shared view — what's running, what's wasted, who owns it, and what should be done about it.
             </p>
           </div>
         </Section>
 
-        {/* Timeline */}
         <Section>
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Our journey</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">How we got here</h2>
           <div className="max-w-2xl mx-auto space-y-6">
             {timeline.map((t) => (
               <div key={t.year} className="flex gap-6 items-start">
@@ -64,9 +61,8 @@ const AboutPage = () => {
           </div>
         </Section>
 
-        {/* Principles */}
         <Section>
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Product principles</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">What we believe in</h2>
           <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {principles.map((p) => (
               <div key={p.title} className="bg-card border border-border rounded-lg p-6">
@@ -77,14 +73,13 @@ const AboutPage = () => {
           </div>
         </Section>
 
-        {/* Leadership */}
         <Section>
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Leadership</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">The team</h2>
           <div className="grid sm:grid-cols-3 gap-5 max-w-3xl mx-auto">
             {[
-              { name: "Raj Mehta", role: "CEO & Co-founder", bg: "Former SRE at a cloud-native unicorn." },
-              { name: "Elena Voronova", role: "CTO & Co-founder", bg: "Ex-AWS, built cost tooling at scale." },
-              { name: "James Okafor", role: "VP Engineering", bg: "Led platform teams at two public companies." },
+              { name: "Raj Mehta", role: "CEO & Co-founder", bg: "Former SRE who got tired of manually auditing cloud spend every quarter." },
+              { name: "Elena Voronova", role: "CTO & Co-founder", bg: "Spent 6 years at AWS, then built cost tooling internally at two startups." },
+              { name: "James Okafor", role: "VP Engineering", bg: "Led platform engineering at two public companies. Cares a lot about clean infrastructure." },
             ].map((p) => (
               <div key={p.name} className="bg-card border border-border rounded-lg p-6 text-center">
                 <div className="w-14 h-14 rounded-full bg-secondary mx-auto mb-4 flex items-center justify-center text-lg font-bold text-muted-foreground">
@@ -100,9 +95,9 @@ const AboutPage = () => {
 
         <Section>
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground mb-4">Ready to stop wasting?</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Want to see what you're wasting?</h2>
             <Link to="/dashboard">
-              <Button variant="hero" size="lg">Start Free Scan</Button>
+              <Button variant="hero" size="lg">Run a Free Scan</Button>
             </Link>
           </div>
         </Section>
