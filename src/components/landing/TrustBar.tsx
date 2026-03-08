@@ -1,4 +1,4 @@
-import { Section, SectionHeader } from "@/components/Section";
+import { Section } from "@/components/Section";
 
 const companies = [
   "Acme Cloud", "Veltrix", "NovaSoft", "Orbitra", "ScaleOps",
@@ -9,7 +9,7 @@ export function TrustBar() {
   return (
     <Section className="py-12 lg:py-16 border-y border-border">
       <p className="text-center text-xs uppercase tracking-widest text-muted-foreground mb-8">
-        Trusted by fast-growing SaaS teams, platform engineers, and cloud-native companies
+        Used by platform teams, DevOps engineers, and startups who got tired of overpaying
       </p>
       <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
         {companies.map((c) => (

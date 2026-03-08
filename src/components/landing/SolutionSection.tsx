@@ -5,20 +5,20 @@ const steps = [
   {
     icon: Link2,
     step: "01",
-    title: "Connect cloud accounts securely",
-    desc: "Grant read-only access to your AWS, Azure, or GCP accounts. No agents, no invasive permissions. Takes under 5 minutes.",
+    title: "Connect your cloud accounts",
+    desc: "Give us read-only access to your AWS, Azure, or GCP accounts. No agents, no scripts, nothing invasive. It takes about 5 minutes.",
   },
   {
     icon: Search,
     step: "02",
-    title: "Analyze usage, spend, and orphaned resources",
-    desc: "Our engine scans your infrastructure for idle compute, unattached storage, zombie snapshots, overprovisioned clusters, and more.",
+    title: "We scan for waste automatically",
+    desc: "Our engine goes through your infrastructure looking for idle compute, orphaned storage, forgotten snapshots, oversized clusters — the stuff that adds up quietly.",
   },
   {
     icon: Lightbulb,
     step: "03",
-    title: "Get prioritized savings recommendations",
-    desc: "Receive actionable recommendations ranked by impact, with cost estimates, ownership data, and one-click remediation paths.",
+    title: "You get a clear list of what to fix",
+    desc: "Every finding comes with a cost estimate, severity level, suggested action, and the team that owns it. No guesswork.",
   },
 ];
 
@@ -27,11 +27,11 @@ export function SolutionSection() {
     <Section id="solution">
       <SectionHeader
         badge="How It Works"
-        title="See exactly where your money is leaking."
-        description="Three steps to full cloud cost visibility. No scripts, no lengthy onboarding, no disruptions."
+        title="See exactly where your money is going."
+        description="Three steps. No complicated onboarding. No disruptions to your team."
       />
       <div className="grid md:grid-cols-3 gap-6">
-        {steps.map((s, i) => (
+        {steps.map((s) => (
           <div key={s.step} className="relative bg-card border border-border rounded-lg p-6 hover:border-primary/20 transition-all">
             <span className="text-5xl font-black text-primary/10 absolute top-4 right-4">{s.step}</span>
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">

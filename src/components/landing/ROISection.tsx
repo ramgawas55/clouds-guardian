@@ -10,14 +10,14 @@ export function ROISection() {
   return (
     <Section id="roi">
       <SectionHeader
-        badge="ROI Calculator"
-        title="See how much you could save."
-        description="Most teams recover 15–30% of their cloud bill within the first month."
+        badge="Quick Math"
+        title="How much are you probably wasting?"
+        description="Drag the slider to your monthly cloud spend. The numbers below are based on what we typically see across teams like yours."
       />
       <div className="max-w-2xl mx-auto bg-card border border-border rounded-xl p-6 lg:p-8">
         <div className="mb-8">
           <label className="text-sm text-muted-foreground mb-3 block">
-            Monthly Cloud Spend: <span className="text-foreground font-semibold">${spend.toLocaleString()}</span>
+            Your monthly cloud bill: <span className="text-foreground font-semibold">${spend.toLocaleString()}</span>
           </label>
           <input
             type="range"
@@ -36,7 +36,7 @@ export function ROISection() {
 
         <div className="grid grid-cols-3 gap-4 text-center">
           <div className="bg-background rounded-lg border border-border p-4">
-            <div className="text-xs text-muted-foreground mb-1">Estimated Waste</div>
+            <div className="text-xs text-muted-foreground mb-1">Likely Waste</div>
             <div className="text-xl font-bold text-warning">{wastePercent}%</div>
           </div>
           <div className="bg-background rounded-lg border border-border p-4">

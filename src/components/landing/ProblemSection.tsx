@@ -2,12 +2,12 @@ import { Section, SectionHeader } from "@/components/Section";
 import { Server, HardDrive, Camera, Database, BarChart3, Globe } from "lucide-react";
 
 const pains = [
-  { icon: Server, title: "Idle EC2 / VM Instances", desc: "Compute resources running 24/7 with near-zero utilization, burning through your budget silently." },
-  { icon: HardDrive, title: "Unattached Disks & Volumes", desc: "Storage volumes left orphaned after instance termination, accruing charges with no workload." },
-  { icon: Camera, title: "Forgotten Snapshots", desc: "Old EBS snapshots and disk images piling up across regions, often unnoticed for months." },
-  { icon: Database, title: "Oversized Clusters", desc: "Kubernetes node pools and database instances provisioned for peak, running idle at baseline." },
-  { icon: BarChart3, title: "Staging Running 24/7", desc: "Non-production environments running around the clock without shutdown schedules or policies." },
-  { icon: Globe, title: "Load Balancers Left Behind", desc: "Orphaned ALBs and NLBs from old deployments still generating hourly charges." },
+  { icon: Server, title: "Idle EC2 / VM Instances", desc: "That batch server someone spun up three sprints ago? Still running. Still billing you. Nobody remembers who owns it." },
+  { icon: HardDrive, title: "Unattached Disks & Volumes", desc: "When you terminate an instance but forget the attached storage, those volumes just sit there — quietly costing you every hour." },
+  { icon: Camera, title: "Forgotten Snapshots", desc: "Teams create EBS snapshots \"just in case\" and never clean them up. After a few months, you've got hundreds nobody needs." },
+  { icon: Database, title: "Oversized Clusters", desc: "Your Kubernetes clusters were sized for Black Friday traffic six months ago. Now they're at 15% utilization, every single day." },
+  { icon: BarChart3, title: "Staging Running 24/7", desc: "Dev and staging environments don't need to run at 3 AM on a Sunday. But without shutdown policies, they do — and you pay for it." },
+  { icon: Globe, title: "Load Balancers Left Behind", desc: "Old deployments leave behind ALBs and NLBs that serve zero traffic but still show up on your bill every month." },
 ];
 
 export function ProblemSection() {
@@ -15,8 +15,8 @@ export function ProblemSection() {
     <Section id="problem">
       <SectionHeader
         badge="The Problem"
-        title="Your cloud bill is full of silent waste."
-        description="Most engineering teams waste 20-35% of their cloud spend on resources nobody is actively using. These leaks compound every month."
+        title="Your cloud bill is full of stuff nobody's using."
+        description="It's not that your team is careless. It's that cloud resources are easy to create and hard to track. Over time, waste just... accumulates."
       />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {pains.map((p) => (

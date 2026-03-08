@@ -2,14 +2,14 @@ import { Section, SectionHeader } from "@/components/Section";
 import { Shield, Lock, Users, FileText, Key, AlertTriangle, Settings, ClipboardCheck } from "lucide-react";
 
 const items = [
-  { icon: Shield, title: "Read-Only Cloud Access", desc: "We never modify your infrastructure. All connections use read-only IAM roles." },
-  { icon: Lock, title: "Encrypted Credentials", desc: "All cloud credentials are encrypted at rest and in transit using AES-256." },
-  { icon: Users, title: "Role-Based Access Control", desc: "Granular permissions for admins, engineers, and viewers across teams." },
-  { icon: FileText, title: "Audit Logs", desc: "Complete audit trail of every action, scan, and configuration change." },
-  { icon: Key, title: "SSO-Ready Architecture", desc: "Enterprise SSO support with SAML 2.0 and OpenID Connect." },
-  { icon: Settings, title: "Secure API Tokens", desc: "Scoped API tokens with expiration policies and rotation support." },
-  { icon: AlertTriangle, title: "No Destructive Changes", desc: "All remediation actions require explicit confirmation and approval workflows." },
-  { icon: ClipboardCheck, title: "Compliance Reporting", desc: "Generate compliance-friendly reports for SOC 2, ISO 27001, and internal audits." },
+  { icon: Shield, title: "Read-Only Cloud Access", desc: "We only look at your infrastructure. We can't change, delete, or create anything. That's by design." },
+  { icon: Lock, title: "Encrypted Credentials", desc: "Your cloud credentials are encrypted with AES-256, both when stored and when moving between systems." },
+  { icon: Users, title: "Role-Based Access Control", desc: "Give admins full access, engineers what they need, and viewers a read-only experience. Your call." },
+  { icon: FileText, title: "Audit Logs", desc: "Every scan, every action, every config change gets logged. You can always see exactly what happened and when." },
+  { icon: Key, title: "SSO-Ready Architecture", desc: "Support for SAML 2.0 and OpenID Connect. Plug into your existing identity provider." },
+  { icon: Settings, title: "Secure API Tokens", desc: "Scoped tokens with expiration dates and rotation support. No permanent keys floating around." },
+  { icon: AlertTriangle, title: "No Destructive Changes", desc: "Want to terminate something? You have to confirm it. We'll never delete a resource without your explicit approval." },
+  { icon: ClipboardCheck, title: "Compliance Reporting", desc: "Generate reports that work for SOC 2, ISO 27001, or your internal security review. They're actually readable." },
 ];
 
 export function SecuritySection() {
@@ -17,8 +17,8 @@ export function SecuritySection() {
     <Section id="security">
       <SectionHeader
         badge="Security & Compliance"
-        title="Built for teams that care about access and control."
-        description="Enterprise-grade security from day one. Your credentials, your rules, your audit trail."
+        title="We take security seriously. Here's how."
+        description="You're giving us access to your cloud accounts — we understand that's a big deal. Here's exactly how we handle it."
       />
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {items.map((item) => (
