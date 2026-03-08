@@ -65,6 +65,12 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} Cloud Cost Leak Detector. All rights reserved.
           </p>
+          <p className="text-xs text-muted-foreground">
+            Made by{" "}
+            <a href="https://ramgawas55.in" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">
+              Ram Gawas
+            </a>
+          </p>
           <div className="flex items-center gap-4">
             {["Twitter", "GitHub", "LinkedIn"].map((s) => (
               <a key={s} href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
