@@ -145,16 +145,25 @@ export function DashboardTeams({
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>Member Actions</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={() => toast.info(`Editing permissions for ${member.name}`)}>
+                                    <DropdownMenuItem onSelect={() => {
+                                        console.log("Edit Permissions clicked");
+                                        toast.info(`Editing permissions for ${member.name}`);
+                                    }}>
                                         <ShieldCheck className="w-4 h-4 mr-2" /> Edit Permissions
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => toast.info(`Initiating transfer to ${member.name}`)}>
+                                    <DropdownMenuItem onSelect={() => {
+                                        console.log("Transfer Ownership clicked");
+                                        toast.info(`Initiating transfer to ${member.name}`);
+                                    }}>
                                         <Users className="w-4 h-4 mr-2" /> Transfer Ownership
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
                                         className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
-                                        onClick={() => toast.error(`Removed ${member.name} from workspace`)}
+                                        onSelect={() => {
+                                            console.log("Remove Member clicked");
+                                            toast.error(`Removed ${member.name} from workspace`);
+                                        }}
                                     >
                                         Remove Member
                                     </DropdownMenuItem>

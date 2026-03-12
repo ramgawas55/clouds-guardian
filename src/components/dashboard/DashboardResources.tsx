@@ -117,10 +117,22 @@ export function DashboardResources({
                             <DropdownMenuContent align="end" className="w-48">
                                 <DropdownMenuLabel>Filter Categories</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={() => setActiveFilter("All")}>All Resources</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setActiveFilter("Compute")}>Compute Engines</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setActiveFilter("Storage")}>Storage & DBs</DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setActiveFilter("Security")}>Security & Logs</DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => {
+                                    console.log("Filter: All");
+                                    setActiveFilter("All");
+                                }}>All Resources</DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => {
+                                    console.log("Filter: Compute");
+                                    setActiveFilter("Compute");
+                                }}>Compute Engines</DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => {
+                                    console.log("Filter: Storage");
+                                    setActiveFilter("Storage");
+                                }}>Storage & DBs</DropdownMenuItem>
+                                <DropdownMenuItem onSelect={() => {
+                                    console.log("Filter: Security");
+                                    setActiveFilter("Security");
+                                }}>Security & Logs</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                         <Button size="sm" className="sm:hidden">
