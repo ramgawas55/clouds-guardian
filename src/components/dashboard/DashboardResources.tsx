@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { Server, Search, Filter, ExternalLink, Database, Globe, Shield, Tag } from "lucide-react";
+import {
+    Server, Search, Filter, ExternalLink, Database, Globe,
+    Shield, Tag, Activity, Cpu, HardDrive as Disk, ArrowUpRight,
+    Zap, AlertCircle, BarChart3, Radio
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -9,25 +13,63 @@ import {
     SheetHeader,
     SheetTitle,
 } from "@/components/ui/sheet";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 
 export function DashboardResources() {
     const [isConnected, setIsConnected] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedResource, setSelectedResource] = useState<any | null>(null);
+    const [activeFilter, setActiveFilter] = useState("All");
+    const [isTelemetryLoading, setIsTelemetryLoading] = useState(false);
+    const [showTelemetry, setShowTelemetry] = useState(false);
 
     const baseResources = [
-        { name: "prod-api-cluster", type: "EKS Cluster", region: "us-east-1", account: "AWS-Main" },
-        { name: "user-data-bucket", type: "S3 Bucket", region: "eu-central-1", account: "AWS-Main" },
-        { name: "auth-db-instance", type: "RDS Instance", region: "us-east-1", account: "AWS-Main" },
-        { name: "static-website-cdn", type: "CloudFront", region: "Global", account: "AWS-Prod" },
-        { name: "security-audit-log", type: "CloudWatch", region: "us-east-1", account: "AWS-Prod" },
+        { name: "prod-api-cluster", type: "EKS Cluster", region: "us-east-1", account: "AWS-Main", status: "Healthy" },
+        { name: "user-data-bucket", type: "S3 Bucket", region: "eu-central-1", account: "AWS-Main", status: "Healthy" },
+        { name: "auth-db-instance", type: "RDS Instance", region: "us-east-1", account: "AWS-Main", status: "Issue" },
+        { name: "static-website-cdn", type: "CloudFront", region: "Global", account: "AWS-Prod", status: "Healthy" },
+        { name: "security-audit-log", type: "CloudWatch", region: "us-east-1", account: "AWS-Prod", status: "Healthy" },
     ];
 
-    const filteredResources = baseResources.filter(r =>
-        r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.type.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredResources = baseResources.filter(r => {
+        const matchesSearch = r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            r.type.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesFilter = activeFilter === "All" ||
+            (activeFilter === "Compute" && r.type.includes("Cluster")) ||
+            (activeFilter === "Storage" && (r.type.includes("Bucket") || r.type.includes("Instance"))) ||
+            (activeFilter === "Security" && r.type.includes("Audit"));
+        return matchesSearch && matchesFilter;
+    });
+
+    const handleViewTelemetry = () => {
+        setIsTelemetryLoading(true);
+        setShowTelemetry(false);
+        toast.info("Establishing secure connection to " + selectedResource?.name, {
+            description: "Fetching real-time data packets..."
+        });
+
+        setTimeout(() => {
+            setIsTelemetryLoading(false);
+            setShowTelemetry(true);
+            toast.success("Telemetry synchronized", {
+                duration: 2000
+            });
+        }, 2000);
+    };
+
+    const handleCloseSheet = () => {
+        setSelectedResource(null);
+        setShowTelemetry(false);
+        setIsTelemetryLoading(false);
+    };
 
     useEffect(() => {
         const saved = localStorage.getItem("ccl-connected-integrations");
@@ -55,9 +97,21 @@ export function DashboardResources() {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <Button variant="outline" size="sm" onClick={() => toast.info("Filter applied: All Resources")}>
-                            <Filter className="w-4 h-4 mr-2" /> Filter
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="sm" className={activeFilter !== 'All' ? 'border-primary text-primary' : ''}>
+                                    <Filter className="w-4 h-4 mr-2" /> {activeFilter === 'All' ? 'Filter' : activeFilter}
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-48">
+                                <DropdownMenuLabel>Filter Categories</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => setActiveFilter("All")}>All Resources</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setActiveFilter("Compute")}>Compute Engines</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setActiveFilter("Storage")}>Storage & DBs</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setActiveFilter("Security")}>Security & Logs</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         <Button size="sm" className="sm:hidden">
                             <Search className="w-4 h-4" />
                         </Button>
@@ -84,7 +138,12 @@ export function DashboardResources() {
                                         </td>
                                         <td className="px-6 py-4 text-muted-foreground">{item.type}</td>
                                         <td className="px-6 py-4 text-xs font-mono">{item.region}</td>
-                                        <td className="px-6 py-4"><span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-bold">{item.account}</span></td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-2">
+                                                <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 text-[10px] font-bold">{item.account}</span>
+                                                {item.status === 'Issue' && <AlertCircle className="w-3 h-3 text-destructive animate-pulse" />}
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4 text-right">
                                             <Button
                                                 variant="ghost"
@@ -99,7 +158,7 @@ export function DashboardResources() {
                                 )) : (
                                     <tr>
                                         <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground italic">
-                                            No resources matching "{searchQuery}"
+                                            No resources matching "{searchQuery}" in {activeFilter}
                                         </td>
                                     </tr>
                                 )}
@@ -108,8 +167,8 @@ export function DashboardResources() {
                     </div>
                 </div>
 
-                <Sheet open={!!selectedResource} onOpenChange={() => setSelectedResource(null)}>
-                    <SheetContent className="sm:max-w-md">
+                <Sheet open={!!selectedResource} onOpenChange={handleCloseSheet}>
+                    <SheetContent className="sm:max-w-md overflow-y-auto">
                         <SheetHeader className="mb-6">
                             <SheetTitle className="flex items-center gap-2 text-xl">
                                 <Database className="w-5 h-5 text-primary" /> Resource Detail
@@ -130,48 +189,121 @@ export function DashboardResources() {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="p-3 rounded-lg border border-border">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <Globe className="w-3.5 h-3.5 text-muted-foreground" />
-                                            <p className="text-[10px] text-muted-foreground font-semibold">Region</p>
+                                {!showTelemetry ? (
+                                    <>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="p-3 rounded-lg border border-border">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <Globe className="w-3.5 h-3.5 text-muted-foreground" />
+                                                    <p className="text-[10px] text-muted-foreground font-semibold">Region</p>
+                                                </div>
+                                                <p className="text-sm font-medium">{selectedResource.region}</p>
+                                            </div>
+                                            <div className="p-3 rounded-lg border border-border">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <Shield className="w-3.5 h-3.5 text-muted-foreground" />
+                                                    <p className="text-[10px] text-muted-foreground font-semibold">Security</p>
+                                                </div>
+                                                <p className={`text-sm font-medium ${selectedResource.status === 'Issue' ? 'text-destructive' : 'text-success'}`}>
+                                                    {selectedResource.status === 'Issue' ? 'Review Required' : 'Compliant'}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <p className="text-sm font-medium">{selectedResource.region}</p>
-                                    </div>
-                                    <div className="p-3 rounded-lg border border-border">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <Shield className="w-3.5 h-3.5 text-muted-foreground" />
-                                            <p className="text-[10px] text-muted-foreground font-semibold">Security</p>
-                                        </div>
-                                        <p className="text-sm font-medium text-success">Compliant</p>
-                                    </div>
-                                </div>
 
-                                <div className="space-y-3">
-                                    <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2 flex items-center gap-2">
-                                        <Tag className="w-3 h-3" /> Tags & Metadata
-                                    </h4>
-                                    <div className="space-y-2">
-                                        <div className="flex justify-between items-center py-2 border-b border-border/50">
-                                            <span className="text-xs text-muted-foreground">Environment</span>
-                                            <span className="text-xs font-mono">Production</span>
+                                        <div className="space-y-3">
+                                            <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2 flex items-center gap-2">
+                                                <Tag className="w-3 h-3" /> Tags & Metadata
+                                            </h4>
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between items-center py-2 border-b border-border/50">
+                                                    <span className="text-xs text-muted-foreground">Environment</span>
+                                                    <span className="text-xs font-mono">Production</span>
+                                                </div>
+                                                <div className="flex justify-between items-center py-2 border-b border-border/50">
+                                                    <span className="text-xs text-muted-foreground">Project</span>
+                                                    <span className="text-xs font-mono">Cloud-Guardian</span>
+                                                </div>
+                                                <div className="flex justify-between items-center py-2">
+                                                    <span className="text-xs text-muted-foreground">Owner</span>
+                                                    <span className="text-xs font-mono">RAM-GAWAS</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex justify-between items-center py-2 border-b border-border/50">
-                                            <span className="text-xs text-muted-foreground">Project</span>
-                                            <span className="text-xs font-mono">Cloud-Guardian</span>
-                                        </div>
-                                        <div className="flex justify-between items-center py-2">
-                                            <span className="text-xs text-muted-foreground">Owner</span>
-                                            <span className="text-xs font-mono">RAM-GAWAS</span>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div className="pt-6">
-                                    <Button className="w-full" variant="outline" onClick={() => toast.success("Live telemetry data fetching coming soon")}>
-                                        View Live Telemetry
-                                    </Button>
-                                </div>
+                                        <div className="pt-6">
+                                            <Button
+                                                className="w-full relative overflow-hidden group"
+                                                variant="outline"
+                                                onClick={handleViewTelemetry}
+                                                disabled={isTelemetryLoading}
+                                            >
+                                                <span className={isTelemetryLoading ? 'opacity-0' : 'flex items-center'}>
+                                                    <Activity className="w-4 h-4 mr-2 text-primary" /> View Live Telemetry
+                                                </span>
+                                                {isTelemetryLoading && (
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-background/50">
+                                                        <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2" />
+                                                        <span className="text-xs font-medium">Interrogating...</span>
+                                                    </div>
+                                                )}
+                                            </Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="space-y-6 animate-in zoom-in-95 duration-300">
+                                        <div className="flex items-center justify-between">
+                                            <h4 className="text-xs font-bold uppercase text-primary flex items-center gap-2">
+                                                <Radio className="w-3 h-3 animate-pulse" /> Real-time Health Metrics
+                                            </h4>
+                                            <Button variant="ghost" size="sm" className="h-6 text-[10px]" onClick={() => setShowTelemetry(false)}>Reset View</Button>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm">
+                                                <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                                                    <Cpu className="w-4 h-4" />
+                                                    <span className="text-[10px] font-medium uppercase">CPU Load</span>
+                                                </div>
+                                                <div className="flex items-baseline gap-1">
+                                                    <span className="text-2xl font-bold">14.2</span>
+                                                    <span className="text-[10px] text-muted-foreground">%</span>
+                                                </div>
+                                                <Progress value={14} className="h-1 mt-3" />
+                                            </div>
+                                            <div className="p-4 rounded-xl bg-card border border-border shadow-sm">
+                                                <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                                                    <Activity className="w-4 h-4" />
+                                                    <span className="text-[10px] font-medium uppercase">Network</span>
+                                                </div>
+                                                <div className="flex items-baseline gap-1">
+                                                    <span className="text-2xl font-bold">2.4</span>
+                                                    <span className="text-[10px] text-muted-foreground">GB/s</span>
+                                                </div>
+                                                <div className="flex gap-1 mt-3 h-8 items-end">
+                                                    {[40, 70, 45, 90, 65, 80].map((h, i) => (
+                                                        <div key={i} className="flex-1 bg-primary/20 rounded-t-sm" style={{ height: `${h / 3}%` }} />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                                            <div className="flex items-start gap-3">
+                                                <BarChart3 className="w-5 h-5 text-primary mt-1" />
+                                                <div className="space-y-1">
+                                                    <h5 className="text-sm font-semibold">Optimization Insight</h5>
+                                                    <p className="text-xs text-muted-foreground leading-relaxed">
+                                                        This resource is currently under-utilized (Avg CPU &lt; 15%). We recommend downsizing to reduce monthly spend by 28%.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <Button className="w-full" variant="outline" onClick={() => toast.info("Deep logs would appear here in production.")}>
+                                            Explore Stream Logs <ArrowUpRight className="w-4 h-4 ml-2" />
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </SheetContent>
