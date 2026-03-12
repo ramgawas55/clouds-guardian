@@ -10,9 +10,9 @@ export function ROISection() {
   return (
     <Section id="roi">
       <SectionHeader
-        badge="Quick Math"
-        title="How much are you probably wasting?"
-        description="Drag the slider to your monthly cloud spend. The numbers below are based on what we typically see across teams like yours."
+        badge="ROI Calculator"
+        title="Estimate your savings"
+        description="Drag the slider to your current monthly cloud spend to see typical waste levels based on industry averages."
       />
       <div className="max-w-2xl mx-auto bg-card border border-border rounded-xl p-6 lg:p-8">
         <div className="mb-8">

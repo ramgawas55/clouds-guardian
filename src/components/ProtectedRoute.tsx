@@ -20,8 +20,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     }
 
     if (!user) {
-        // Redirect them to the /login page, but save the current location they were trying to go to
-        return <Navigate to="/login" state={{ from: location }} replace />;
+        // Build the redirect URL keeping the hash if it exists (for invite/recovery tokens)
+        const redirectPath = location.hash ? `/login${location.hash}` : "/login";
+        return <Navigate to={redirectPath} state={{ from: location }} replace />;
     }
 
     return <>{children}</>;

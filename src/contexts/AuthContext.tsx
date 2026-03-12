@@ -14,6 +14,9 @@ interface AuthContextType {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
+    requestPasswordRecovery: (email: string) => Promise<void>;
+    recoverPassword: (token: string, password: string) => Promise<void>;
+    acceptInvite: (token: string, password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -53,12 +56,58 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUser(null);
         } catch (error) {
             console.error("Logout Error:", error);
-            toast.error("Failed to logically log out.");
+            toast.error("Failed to safely log out.");
+        }
+    };
+
+    const requestPasswordRecovery = async (email: string) => {
+        try {
+            setIsLoading(true);
+            await netlifyAuth.requestPasswordRecovery(email);
+        } catch (error: any) {
+            console.error("Recovery Request Error:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const recoverPassword = async (token: string, password: string) => {
+        try {
+            setIsLoading(true);
+            const user = await netlifyAuth.recover(token, password, true);
+            setUser(user);
+        } catch (error: any) {
+            console.error("Password Recovery Error:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const acceptInvite = async (token: string, password: string) => {
+        try {
+            setIsLoading(true);
+            const user = await netlifyAuth.acceptInvite(token, password, true);
+            setUser(user);
+        } catch (error: any) {
+            console.error("Invite Acceptance Error:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+        <AuthContext.Provider value={{
+            user,
+            isLoading,
+            login,
+            logout,
+            requestPasswordRecovery,
+            recoverPassword,
+            acceptInvite
+        }}>
             {children}
         </AuthContext.Provider>
     );

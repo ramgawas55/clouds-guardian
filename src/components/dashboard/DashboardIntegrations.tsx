@@ -1,48 +1,59 @@
-const integrations = [
-  { name: "AWS", status: "Connected", account: "prod-account-01", statusColor: "text-success" },
-  { name: "Azure", status: "Connected", account: "subscription-staging", statusColor: "text-success" },
-  { name: "GCP", status: "Pending", account: "project-gcp-dev", statusColor: "text-warning" },
-  { name: "Slack", status: "Connected", account: "#cloud-alerts", statusColor: "text-success" },
-  { name: "Microsoft Teams", status: "Disconnected", account: "—", statusColor: "text-muted-foreground" },
-  { name: "Webhooks", status: "Connected", account: "https://api.yourcompany.com/webhooks", statusColor: "text-success" },
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+
+const integrationTypes = [
+  { name: "AWS", description: "Connect via read-only IAM role" },
+  { name: "Azure", description: "Connect via Service Principal" },
+  { name: "GCP", description: "Connect via Service Account" },
+  { name: "Slack", description: "Send alerts to a Slack channel" },
+  { name: "Microsoft Teams", description: "Send alerts to MS Teams" },
+  { name: "Webhooks", description: "Custom HTTP endpoints for alerts" },
 ];
 
-const btnLabel: Record<string, string> = {
-  Connected: "Manage",
-  Pending: "Complete Setup",
-  Disconnected: "Connect",
-};
-
 export function DashboardIntegrations() {
+  const [connecting, setConnecting] = useState<string | null>(null);
+
+  const handleConnect = (name: string) => {
+    setConnecting(name);
+    // Simulate connection flow delay
+    setTimeout(() => {
+      setConnecting(null);
+      toast.info("Connection Setup Started", {
+        description: `The admin configuration panel for ${name} will open shortly.`
+      });
+    }, 800);
+  };
+
   return (
     <div className="space-y-4">
       <div>
         <h1 className="text-xl font-bold text-foreground">Integrations</h1>
-        <p className="text-xs text-muted-foreground">Manage cloud provider and notification connections</p>
+        <p className="text-xs text-muted-foreground">Connect your cloud providers and notification channels</p>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {integrations.map((i) => (
-          <div key={i.name} className="bg-card border border-border rounded-lg p-5 hover:border-primary/20 transition-all">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-semibold text-foreground">{i.name}</h3>
-              <span className={`text-[10px] font-medium ${i.statusColor}`}>
-                <span className={`inline-block w-1.5 h-1.5 rounded-full mr-1 ${i.status === "Connected" ? "bg-success" : i.status === "Pending" ? "bg-warning" : "bg-muted-foreground"
-                  }`} />
-                {i.status}
-              </span>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        {integrationTypes.map((i) => (
+          <div key={i.name} className="bg-card border border-border rounded-lg p-5 hover:border-primary/20 transition-all flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-semibold text-foreground">{i.name}</h3>
+                <span className="text-[10px] font-medium text-muted-foreground px-2 py-0.5 rounded-full border border-border">
+                  Disconnected
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground mb-6">{i.description}</p>
             </div>
-            <p className="text-xs text-muted-foreground mb-4 font-mono truncate">{i.account}</p>
-            <div className="flex gap-2">
-              <button className="text-[10px] bg-primary/10 text-primary px-3 py-1.5 rounded-md font-medium hover:bg-primary/20">
-                {btnLabel[i.status]}
-              </button>
-              {i.status === "Connected" && (
-                <button className="text-[10px] border border-border text-muted-foreground px-3 py-1.5 rounded-md hover:text-foreground">
-                  Test Alert
-                </button>
-              )}
-            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full"
+              disabled={connecting === i.name}
+              onClick={() => handleConnect(i.name)}
+            >
+              {connecting === i.name ? "Connecting..." : "Connect"}
+            </Button>
           </div>
         ))}
       </div>

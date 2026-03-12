@@ -15,8 +15,8 @@ export function ProblemSection() {
     <Section id="problem">
       <SectionHeader
         badge="The Problem"
-        title="Your cloud bill is full of stuff nobody's using."
-        description="It's not that your team is careless. It's that cloud resources are easy to create and hard to track. Over time, waste just... accumulates."
+        title="Cloud infrastructure scales effortlessly. So does waste."
+        description="Resources are rapidly deployed for experiments, incidents, and fast loops. Frequently, they are forgotten. Over time, untracked assets silently inflate your runtime costs."
       />
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {pains.map((p) => (

@@ -5,18 +5,12 @@ import {
 } from "lucide-react";
 
 const features = [
-  { icon: Cloud, title: "Multi-Cloud Support", desc: "See AWS, Azure, and GCP side by side. One dashboard for everything." },
-  { icon: Scan, title: "Automated Leak Detection", desc: "Scans run continuously, so you catch waste as it happens — not months later." },
-  { icon: Scaling, title: "Rightsizing Recommendations", desc: "We look at what your instances actually use, then suggest what they should be." },
-  { icon: Ship, title: "Kubernetes Waste Analysis", desc: "Find overprovisioned node pools, idle pods, and namespaces nobody's touched in weeks." },
-  { icon: BarChart3, title: "Daily Savings Reports", desc: "Wake up to a summary of what we found overnight and how much you can save today." },
-  { icon: Bell, title: "Team Alerts & Approvals", desc: "Get notified on Slack, Teams, or email. Nothing gets changed without someone approving it first." },
-  { icon: Tag, title: "Tag-Based Cost Breakdown", desc: "Break down spend by team, project, or environment. Finally know who's spending what." },
-  { icon: TrendingUp, title: "Historical Spend Trends", desc: "See how your costs have moved over time. Spot anomalies before they become the new normal." },
-  { icon: Users, title: "Resource Ownership Insights", desc: "Every resource gets an owner. No more \"who spun this up?\" conversations." },
-  { icon: Wrench, title: "Smart Remediation Suggestions", desc: "Not just \"this is wasted\" — we tell you exactly what to do about it, ranked by impact." },
-  { icon: CalendarClock, title: "Scheduled Shutdown Automation", desc: "Turn off dev and staging environments at night and on weekends. Simple as that." },
-  { icon: FileText, title: "Executive Savings Summaries", desc: "Need to show leadership what you saved this quarter? We've got a report for that." },
+  { icon: Cloud, title: "Multi-Cloud Visibility", desc: "View AWS, Azure, and GCP spend from a single, unified dashboard." },
+  { icon: Scan, title: "Automated Detection", desc: "Continuous scanning identifies orphaned resources the moment they become idle." },
+  { icon: Scaling, title: "Actionable Intelligence", desc: "Receive precise remediation steps, not just raw alerts." },
+  { icon: Ship, title: "Kubernetes Profiling", desc: "Identify over-provisioned node pools and idle pods across clusters." },
+  { icon: Users, title: "Resource Ownership", desc: "Map infrastructure costs directly to teams and individual owners." },
+  { icon: Wrench, title: "Guided Remediation", desc: "Safely terminate or resize assets with transparent impact estimates." },
 ];
 
 export function FeaturesSection() {
@@ -24,8 +18,8 @@ export function FeaturesSection() {
     <Section id="features">
       <SectionHeader
         badge="Features"
-        title="Core capabilities"
-        description="A focused toolset built to identify exactly where resources are overprovisioned."
+        title="Built for engineering velocity."
+        description="A focused toolset designed to identify cloud waste without interrupting your development workflows."
       />
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {features.map((f) => (

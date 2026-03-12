@@ -27,18 +27,15 @@ export function HeroSection() {
             Works across AWS, Azure, and GCP
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-[1.1]">
-            Find and cut cloud waste {" "}
+            Identify unattached cloud resources {" "}
             <span className="text-gradient">in minutes.</span>
           </h1>
           <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-            Scan your AWS, Azure, and GCP environments for idle instances, forgotten snapshots, and oversized clusters. Built for engineers who want visibility across their cloud stack without the noise.
+            Scan your AWS, Azure, and GCP environments for idle instances, forgotten snapshots, and oversized clusters. Reclaim engineering budget without the noise.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/dashboard">
-              <Button variant="hero" size="xl">Run a Scan</Button>
-            </Link>
-            <Link to="/dashboard">
-              <Button variant="hero-outline" size="xl">See the Dashboard</Button>
+              <Button variant="hero" size="xl">Go to Dashboard</Button>
             </Link>
           </div>
         </motion.div>
