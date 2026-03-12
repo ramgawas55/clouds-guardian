@@ -24,9 +24,19 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 
-export function DashboardResources() {
+export function DashboardResources({
+    externalSearchQuery,
+    onSearchChange
+}: {
+    externalSearchQuery?: string;
+    onSearchChange?: (val: string) => void;
+}) {
     const [isConnected, setIsConnected] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
+    const [localSearchQuery, setLocalSearchQuery] = useState("");
+
+    // Sync local search with external if provided
+    const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : localSearchQuery;
+    const setSearchQuery = onSearchChange || setLocalSearchQuery;
     const [activeFilter, setActiveFilter] = useState("All");
     const [isTelemetryLoading, setIsTelemetryLoading] = useState(false);
     const [showTelemetry, setShowTelemetry] = useState(false);

@@ -26,6 +26,7 @@ const pages: Record<string, React.ComponentType> = {
 const DashboardPage = () => {
   const [activePage, setActivePage] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const ActiveComponent = pages[activePage] || DashboardOverview;
 
   return (
@@ -37,12 +38,21 @@ const DashboardPage = () => {
         onToggle={() => setSidebarOpen(!sidebarOpen)}
       />
       <div className="flex-1 flex flex-col min-h-screen">
-        <DashboardHeader onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+        <DashboardHeader
+          onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+        />
         <main className="flex-1 p-4 lg:p-6 overflow-auto">
           {activePage === 'overview' ? (
             <DashboardOverview
               onConnectClick={() => setActivePage('integrations')}
               onNavigate={(page) => setActivePage(page)}
+            />
+          ) : activePage === 'resources' ? (
+            <DashboardResources
+              externalSearchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
             />
           ) : (
             <ActiveComponent />

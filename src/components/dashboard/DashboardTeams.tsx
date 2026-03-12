@@ -19,6 +19,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 
 export function DashboardTeams() {
@@ -113,11 +121,32 @@ export function DashboardTeams() {
                                 </p>
                             </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-right flex items-center">
                             <span className="px-2 py-0.5 rounded bg-muted text-muted-foreground text-[10px] font-bold uppercase">{member.role}</span>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <MoreVertical className="w-4 h-4 text-muted-foreground" />
-                            </Button>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <MoreVertical className="w-4 h-4 text-muted-foreground" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel>Member Actions</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => toast.info(`Editing permissions for ${member.name}`)}>
+                                        <ShieldCheck className="w-4 h-4 mr-2" /> Edit Permissions
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => toast.info(`Initiating transfer to ${member.name}`)}>
+                                        <Users className="w-4 h-4 mr-2" /> Transfer Ownership
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                        className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
+                                        onClick={() => toast.error(`Removed ${member.name} from workspace`)}
+                                    >
+                                        Remove Member
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                     </div>
                 ))}

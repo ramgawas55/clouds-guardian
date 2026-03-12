@@ -7,7 +7,15 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 
-export function DashboardHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
+export function DashboardHeader({
+  onMenuToggle,
+  searchQuery,
+  onSearchChange
+}: {
+  onMenuToggle: () => void;
+  searchQuery?: string;
+  onSearchChange?: (val: string) => void;
+}) {
   const { user, logout } = useAuth();
   return (
     <header className="h-14 border-b border-border bg-card flex items-center justify-between px-4 lg:px-6">
@@ -20,6 +28,8 @@ export function DashboardHeader({ onMenuToggle }: { onMenuToggle: () => void }) 
           <input
             placeholder="Search resources..."
             className="bg-transparent text-sm text-foreground placeholder:text-muted-foreground/50 outline-none flex-1"
+            value={searchQuery || ""}
+            onChange={(e) => onSearchChange?.(e.target.value)}
           />
         </div>
       </div>
