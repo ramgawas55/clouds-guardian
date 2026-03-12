@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navLinks = [
   { label: "Product", href: "/#features" },
@@ -16,6 +17,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -58,8 +60,12 @@ export function Navbar() {
             <Button variant="ghost" size="sm">Book Demo</Button>
           </Link>
           <Link to="/dashboard">
-            <Button variant="hero" size="sm">Run a Scan</Button>
+            <Button variant="hero" size="sm">Dashboard</Button>
           </Link>
+          <Button variant="outline" size="sm" onClick={logout}>
+            <LogOut className="w-4 h-4 mr-2" />
+            Logout
+          </Button>
         </div>
 
         <button
@@ -93,8 +99,12 @@ export function Navbar() {
                   <Button variant="outline" className="w-full">Book Demo</Button>
                 </Link>
                 <Link to="/dashboard">
-                  <Button variant="hero" className="w-full">Run a Scan</Button>
+                  <Button variant="hero" className="w-full">Dashboard</Button>
                 </Link>
+                <Button variant="destructive" className="w-full" onClick={logout}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
               </div>
             </div>
           </motion.div>

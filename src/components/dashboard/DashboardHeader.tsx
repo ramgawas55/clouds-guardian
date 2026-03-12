@@ -1,6 +1,8 @@
-import { Bell, Search, Menu, ChevronDown } from "lucide-react";
+import { Bell, Search, Menu, ChevronDown, LogOut } from "lucide-react";
+import { useAuth } from '@/contexts/AuthContext';
 
 export function DashboardHeader({ onMenuToggle }: { onMenuToggle: () => void }) {
+  const { user, logout } = useAuth();
   return (
     <header className="h-14 border-b border-border bg-card flex items-center justify-between px-4 lg:px-6">
       <div className="flex items-center gap-3">
@@ -20,10 +22,10 @@ export function DashboardHeader({ onMenuToggle }: { onMenuToggle: () => void }) 
           <Bell className="w-4 h-4" />
           <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-destructive rounded-full text-[8px] text-foreground flex items-center justify-center font-bold">3</span>
         </button>
-        <div className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary cursor-pointer">
+        <div className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary cursor-pointer" onClick={logout}>
           <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">JD</div>
-          <span className="hidden sm:block text-xs text-foreground">RAM GAWAS</span>
-          <ChevronDown className="w-3 h-3 text-muted-foreground" />
+          <span className="hidden sm:block text-xs text-foreground">{(user?.user_metadata?.full_name as string) || 'RAM GAWAS'}</span>
+          <LogOut className="w-3 h-3 text-muted-foreground ml-1 hover:text-destructive transition-colors" />
         </div>
       </div>
     </header>
