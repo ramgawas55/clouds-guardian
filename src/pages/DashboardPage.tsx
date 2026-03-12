@@ -40,7 +40,10 @@ const DashboardPage = () => {
         <DashboardHeader onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <main className="flex-1 p-4 lg:p-6 overflow-auto">
           {activePage === 'overview' ? (
-            <DashboardOverview onConnectClick={() => setActivePage('integrations')} />
+            <DashboardOverview
+              onConnectClick={() => setActivePage('integrations')}
+              onNavigate={(page) => setActivePage(page)}
+            />
           ) : (
             <ActiveComponent />
           )}
