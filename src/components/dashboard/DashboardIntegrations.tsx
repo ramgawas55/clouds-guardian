@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { IntegrationConnectModal } from "./IntegrationConnectModal";
 
 const integrationTypes = [
   { name: "AWS", description: "Connect via read-only IAM role" },
@@ -12,17 +13,26 @@ const integrationTypes = [
 ];
 
 export function DashboardIntegrations() {
-  const [connecting, setConnecting] = useState<string | null>(null);
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [connectedList, setConnectedList] = useState<string[]>([]);
 
-  const handleConnect = (name: string) => {
-    setConnecting(name);
-    // Simulate connection flow delay
-    setTimeout(() => {
-      setConnecting(null);
-      toast.info("Connection Setup Started", {
-        description: `The admin configuration panel for ${name} will open shortly.`
-      });
-    }, 800);
+  useEffect(() => {
+    const saved = localStorage.getItem("ccl-connected-integrations");
+    if (saved) setConnectedList(JSON.parse(saved));
+  }, []);
+
+  const handleConnected = (name: string) => {
+    const newList = [...connectedList, name];
+    setConnectedList(newList);
+    localStorage.setItem("ccl-connected-integrations", JSON.stringify(newList));
+    setActiveModal(null);
+  };
+
+  const handleDisconnect = (name: string) => {
+    const newList = connectedList.filter(i => i !== name);
+    setConnectedList(newList);
+    localStorage.setItem("ccl-connected-integrations", JSON.stringify(newList));
+    toast.success(`${name} disconnected`);
   };
 
   return (
@@ -33,30 +43,41 @@ export function DashboardIntegrations() {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-        {integrationTypes.map((i) => (
-          <div key={i.name} className="bg-card border border-border rounded-lg p-5 hover:border-primary/20 transition-all flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-semibold text-foreground">{i.name}</h3>
-                <span className="text-[10px] font-medium text-muted-foreground px-2 py-0.5 rounded-full border border-border">
-                  Disconnected
-                </span>
+        {integrationTypes.map((i) => {
+          const isConnected = connectedList.includes(i.name);
+          return (
+            <div key={i.name} className="bg-card border border-border rounded-lg p-5 hover:border-primary/20 transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-semibold text-foreground">{i.name}</h3>
+                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${isConnected ? "text-success border-success/30 bg-success/5" : "text-muted-foreground border-border"
+                    }`}>
+                    {isConnected ? "Connected" : "Disconnected"}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground mb-6">{i.description}</p>
               </div>
-              <p className="text-xs text-muted-foreground mb-6">{i.description}</p>
-            </div>
 
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full"
-              disabled={connecting === i.name}
-              onClick={() => handleConnect(i.name)}
-            >
-              {connecting === i.name ? "Connecting..." : "Connect"}
-            </Button>
-          </div>
-        ))}
+              {isConnected ? (
+                <Button variant="ghost" size="sm" className="w-full text-destructive hover:text-destructive hover:bg-destructive/10" onClick={() => handleDisconnect(i.name)}>
+                  Disconnect
+                </Button>
+              ) : (
+                <Button variant="outline" size="sm" className="w-full" onClick={() => setActiveModal(i.name)}>
+                  Connect
+                </Button>
+              )}
+            </div>
+          );
+        })}
       </div>
+
+      <IntegrationConnectModal
+        isOpen={!!activeModal}
+        onClose={() => setActiveModal(null)}
+        integrationName={activeModal}
+        onConnected={handleConnected}
+      />
     </div>
   );
 }
