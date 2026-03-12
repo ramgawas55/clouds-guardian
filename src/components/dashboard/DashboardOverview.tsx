@@ -9,29 +9,26 @@ interface Props {
   onNavigate?: (page: string) => void;
 }
 
-export function DashboardOverview({ onConnectClick, onNavigate }: Props) {
-  const [isConnected, setIsConnected] = useState(false);
+export function DashboardOverview({ onConnectClick, onNavigate, isConnected }: Props & { isConnected?: boolean }) {
+  const [lastScan, setLastScan] = useState(() => localStorage.getItem("ccl-last-scan") || "Never");
   const [isScanning, setIsScanning] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("ccl-connected-integrations");
-    if (saved) {
-      const list = JSON.parse(saved);
-      setIsConnected(list.length > 0);
-    }
-  }, []);
 
   const handleScan = () => {
     setIsScanning(true);
     toast.info("Scan in progress...", {
-      description: "Auditing cloud resources for cost leaks and security gaps."
+      description: "Analyzing your connected cloud environments for leaks."
     });
 
     setTimeout(() => {
       setIsScanning(false);
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const dateStr = `${new Date().toLocaleDateString()} at ${now}`;
+      setLastScan(dateStr);
+      localStorage.setItem("ccl-last-scan", dateStr);
       toast.success("Scan complete", {
-        description: "Found 12 cost-saving opportunities and 4 security risks."
+        description: `Identified 4 potential savings opportunities.`
       });
+      window.dispatchEvent(new Event("storage"));
     }, 2000);
   };
 

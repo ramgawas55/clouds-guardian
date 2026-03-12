@@ -26,12 +26,13 @@ import { toast } from "sonner";
 
 export function DashboardResources({
     externalSearchQuery,
-    onSearchChange
+    onSearchChange,
+    isConnected
 }: {
     externalSearchQuery?: string;
     onSearchChange?: (val: string) => void;
+    isConnected?: boolean;
 }) {
-    const [isConnected, setIsConnected] = useState(false);
     const [localSearchQuery, setLocalSearchQuery] = useState("");
 
     // Sync local search with external if provided
@@ -82,13 +83,28 @@ export function DashboardResources({
         setIsTelemetryLoading(false);
     };
 
-    useEffect(() => {
-        const saved = localStorage.getItem("ccl-connected-integrations");
-        if (saved) {
-            const list = JSON.parse(saved);
-            setIsConnected(list.length > 0);
-        }
-    }, []);
+    if (!isConnected) {
+        return (
+            <div className="space-y-4">
+                <div>
+                    <h1 className="text-xl font-bold text-foreground">Resources Inventory</h1>
+                    <p className="text-xs text-muted-foreground">Comprehensive list of cloud assets</p>
+                </div>
+                <div className="bg-card border border-dashed border-border rounded-xl p-12 text-center flex flex-col items-center justify-center">
+                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                        <Server className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">Inventory is Empty</h3>
+                    <p className="text-sm text-muted-foreground max-w-sm mb-6">
+                        Connect your cloud provider (AWS, Azure, or GCP) to automatically index and audit your infrastructure resources.
+                    </p>
+                    <Button variant="outline" onClick={() => toast.info("Navigate to Integrations to connect an account.")}>
+                        Connect Account
+                    </Button>
+                </div>
+            </div>
+        );
+    }
 
     if (isConnected) {
         return (
@@ -126,11 +142,9 @@ export function DashboardResources({
                                     setActiveFilter("Compute");
                                 }}>Compute Engines</DropdownMenuItem>
                                 <DropdownMenuItem onSelect={() => {
-                                    console.log("Filter: Storage");
                                     setActiveFilter("Storage");
                                 }}>Storage & DBs</DropdownMenuItem>
                                 <DropdownMenuItem onSelect={() => {
-                                    console.log("Filter: Security");
                                     setActiveFilter("Security");
                                 }}>Security & Logs</DropdownMenuItem>
                             </DropdownMenuContent>

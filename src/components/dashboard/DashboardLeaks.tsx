@@ -4,17 +4,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { LeakResolveModal } from "./LeakResolveModal";
 
-export function DashboardLeaks() {
-  const [isConnected, setIsConnected] = useState(false);
+export function DashboardLeaks({ isConnected }: { isConnected?: boolean }) {
   const [selectedLeak, setSelectedLeak] = useState<any | null>(null);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("ccl-connected-integrations");
-    if (saved) {
-      const list = JSON.parse(saved);
-      setIsConnected(list.length > 0);
-    }
-  }, []);
 
   if (isConnected) {
     return (

@@ -15,14 +15,14 @@ const footerLinks = {
   Resources: [
     { label: "Documentation", href: "/docs" },
     { label: "API Reference", href: "/docs" },
-    { label: "Status", href: "#" },
-    { label: "Changelog", href: "#" },
+    { label: "Status", href: "/docs" },
+    { label: "Changelog", href: "/docs" },
   ],
   Legal: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
-    { label: "Security", href: "#" },
-    { label: "DPA", href: "#" },
+    { label: "Privacy Policy", href: "/docs" },
+    { label: "Terms of Service", href: "/docs" },
+    { label: "Security", href: "/docs" },
+    { label: "DPA", href: "/docs" },
   ],
 };
 

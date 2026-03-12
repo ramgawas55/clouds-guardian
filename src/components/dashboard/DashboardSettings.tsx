@@ -3,8 +3,35 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 export function DashboardSettings() {
+  const [settings, setSettings] = useState(() => {
+    const saved = localStorage.getItem("ccl-user-settings");
+    return saved ? JSON.parse(saved) : {
+      scanFrequency: "Daily",
+      wasteThreshold: "$25/month",
+      idleWindow: "14 days",
+      alerts: {
+        leaks: true,
+        digest: true,
+        budget: true,
+        completion: false
+      }
+    };
+  });
+
   const handleSave = () => {
+    localStorage.setItem("ccl-user-settings", JSON.stringify(settings));
     toast.success("Settings saved successfully.");
+  };
+
+  const updateSetting = (key: string, value: any) => {
+    setSettings((prev: any) => ({ ...prev, [key]: value }));
+  };
+
+  const toggleAlert = (key: string) => {
+    setSettings((prev: any) => ({
+      ...prev,
+      alerts: { ...prev.alerts, [key]: !prev.alerts[key] }
+    }));
   };
 
   return (
@@ -18,16 +45,31 @@ export function DashboardSettings() {
       </div>
 
       <SettingsCard title="Scan Configuration">
-        <SettingSelect label="Scan Frequency" options={["Every 6 hours", "Daily", "Weekly"]} defaultVal="Daily" />
-        <SettingSelect label="Waste Threshold" options={["$10/month", "$25/month", "$50/month"]} defaultVal="$25/month" />
-        <SettingSelect label="Idle Detection Window" options={["7 days", "14 days", "30 days"]} defaultVal="14 days" />
+        <SettingSelect
+          label="Scan Frequency"
+          options={["Every 6 hours", "Daily", "Weekly"]}
+          value={settings.scanFrequency}
+          onChange={(v) => updateSetting('scanFrequency', v)}
+        />
+        <SettingSelect
+          label="Waste Threshold"
+          options={["$10/month", "$25/month", "$50/month"]}
+          value={settings.wasteThreshold}
+          onChange={(v) => updateSetting('wasteThreshold', v)}
+        />
+        <SettingSelect
+          label="Idle Detection Window"
+          options={["7 days", "14 days", "30 days"]}
+          value={settings.idleWindow}
+          onChange={(v) => updateSetting('idleWindow', v)}
+        />
       </SettingsCard>
 
       <SettingsCard title="Notification Preferences">
-        <SettingToggle label="New leak alerts" defaultEnabled />
-        <SettingToggle label="Weekly savings digest" defaultEnabled />
-        <SettingToggle label="Budget threshold alerts" defaultEnabled />
-        <SettingToggle label="Scan completion notifications" defaultEnabled={false} />
+        <SettingToggle label="New leak alerts" enabled={settings.alerts.leaks} onToggle={() => toggleAlert('leaks')} />
+        <SettingToggle label="Weekly savings digest" enabled={settings.alerts.digest} onToggle={() => toggleAlert('digest')} />
+        <SettingToggle label="Budget threshold alerts" enabled={settings.alerts.budget} onToggle={() => toggleAlert('budget')} />
+        <SettingToggle label="Scan completion notifications" enabled={settings.alerts.completion} onToggle={() => toggleAlert('completion')} />
       </SettingsCard>
 
       <SettingsCard title="Team Management">
@@ -51,13 +93,14 @@ function SettingsCard({ title, children }: { title: string; children: React.Reac
   );
 }
 
-function SettingSelect({ label, options, defaultVal }: { label: string; options: string[], defaultVal: string }) {
+function SettingSelect({ label, options, value, onChange }: { label: string; options: string[], value: string, onChange: (v: string) => void }) {
   return (
     <div className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
       <span className="text-sm text-foreground">{label}</span>
       <select
         className="bg-background border border-border text-sm rounded-md px-2 py-1 text-muted-foreground outline-none focus:ring-1 focus:ring-primary"
-        defaultValue={defaultVal}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       >
         {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
       </select>
@@ -65,13 +108,12 @@ function SettingSelect({ label, options, defaultVal }: { label: string; options:
   );
 }
 
-function SettingToggle({ label, defaultEnabled }: { label: string; defaultEnabled: boolean }) {
-  const [enabled, setEnabled] = useState(defaultEnabled);
+function SettingToggle({ label, enabled, onToggle }: { label: string; enabled: boolean, onToggle: () => void }) {
   return (
     <div className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
       <span className="text-sm text-foreground">{label}</span>
       <button
-        onClick={() => setEnabled(!enabled)}
+        onClick={onToggle}
         className={`w-9 h-5 rounded-full relative transition-colors ${enabled ? "bg-primary" : "bg-secondary"}`}
       >
         <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-background transition-transform ${enabled ? "translate-x-4.5" : "translate-x-0.5"}`} />

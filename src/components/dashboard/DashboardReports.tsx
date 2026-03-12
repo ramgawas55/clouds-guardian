@@ -3,16 +3,7 @@ import { FileText, Download, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-export function DashboardReports() {
-  const [isConnected, setIsConnected] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("ccl-connected-integrations");
-    if (saved) {
-      const list = JSON.parse(saved);
-      setIsConnected(list.length > 0);
-    }
-  }, []);
+export function DashboardReports({ isConnected }: { isConnected?: boolean }) {
 
   const handleExport = (type: string) => {
     toast.info(`Generating ${type} report...`, {

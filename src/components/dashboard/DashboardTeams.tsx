@@ -161,7 +161,6 @@ export function DashboardTeams({
                                     <DropdownMenuItem
                                         className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
                                         onSelect={() => {
-                                            console.log("Remove Member clicked");
                                             toast.error(`Removed ${member.name} from workspace`);
                                         }}
                                     >

@@ -16,9 +16,29 @@ const priorityColor: Record<string, string> = {
   Low: "bg-secondary text-muted-foreground",
 };
 
-export function DashboardRecommendations() {
+export function DashboardRecommendations({ isConnected }: { isConnected?: boolean }) {
+  if (!isConnected) {
+    return (
+      <div className="space-y-4">
+        <div>
+          <h1 className="text-xl font-bold text-foreground">Recommendations</h1>
+          <p className="text-xs text-muted-foreground">Prioritized actions to reduce cloud waste</p>
+        </div>
+        <div className="bg-card border border-dashed border-border rounded-xl p-12 text-center flex flex-col items-center justify-center">
+          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+            <Scaling className="w-6 h-6 text-primary" />
+          </div>
+          <h3 className="text-lg font-semibold mb-2">No Recommendations Available</h3>
+          <p className="text-sm text-muted-foreground max-w-sm mb-6">
+            Connect your AWS or Azure accounts to receive automated suggestions for rightsizing and cost optimization.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-in fade-in duration-500">
       <div>
         <h1 className="text-xl font-bold text-foreground">Recommendations</h1>
         <p className="text-xs text-muted-foreground">Prioritized actions to reduce cloud waste</p>

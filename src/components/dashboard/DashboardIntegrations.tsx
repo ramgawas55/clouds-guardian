@@ -25,6 +25,7 @@ export function DashboardIntegrations() {
     const newList = [...connectedList, name];
     setConnectedList(newList);
     localStorage.setItem("ccl-connected-integrations", JSON.stringify(newList));
+    window.dispatchEvent(new Event("storage"));
     setActiveModal(null);
   };
 
@@ -32,6 +33,7 @@ export function DashboardIntegrations() {
     const newList = connectedList.filter(i => i !== name);
     setConnectedList(newList);
     localStorage.setItem("ccl-connected-integrations", JSON.stringify(newList));
+    window.dispatchEvent(new Event("storage"));
     toast.success(`${name} disconnected`);
   };
 
