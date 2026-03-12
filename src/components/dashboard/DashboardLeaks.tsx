@@ -1,13 +1,46 @@
+```typescript
 import { Button } from "@/components/ui/button";
-import { Search, AlertCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ShieldAlert, ExternalLink, AlertCircle, HardDrive } from "lucide-react";
 import { toast } from "sonner";
 
 export function DashboardLeaks() {
+  const [isConnected, setIsConnected] = useState(false);
+
   const handleConnect = () => {
-    toast.info("No cloud providers connected.", {
-      description: "Navigate to Integrations to connect your first provider."
+    // Simulate connecting an environment
+    setIsConnected(true);
+    toast.success("Environment connected!", {
+      description: "Scanning for leaks now. Mock data displayed."
     });
   };
+
+  const mockLeaks = [
+    {
+      id: "1",
+      type: "Unattached Volume",
+      resource: "vol-0a1b2c3d4e5f6g7h8",
+      region: "us-east-1",
+      cost: "$15.00/month",
+      link: "#"
+    },
+    {
+      id: "2",
+      type: "Idle Instance",
+      resource: "i-9j8k7l6m5n4o3p2q1",
+      region: "eu-west-1",
+      cost: "$50.00/month",
+      link: "#"
+    },
+    {
+      id: "3",
+      type: "Unused Load Balancer",
+      resource: "lb-r1s2t3u4v5w6x7y8z",
+      region: "ap-southeast-2",
+      cost: "$20.00/month",
+      link: "#"
+    }
+  ];
 
   return (
     <div className="space-y-4">

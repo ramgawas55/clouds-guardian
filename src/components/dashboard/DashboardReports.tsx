@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { FileText, Download } from "lucide-react";
+import { useState, useEffect } from "react";
+import { FileText, Download, Clock, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 export function DashboardReports() {
