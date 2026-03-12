@@ -29,9 +29,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 
-export function DashboardTeams() {
+export function DashboardTeams({
+    externalSearchQuery
+}: {
+    externalSearchQuery?: string;
+}) {
     const [isInviteOpen, setIsInviteOpen] = useState(false);
     const [isSending, setIsSending] = useState(false);
+
+    const searchQuery = externalSearchQuery || "";
+
+    const members = [
+        { name: "RAM GAWAS", email: "ram@example.com", role: "Owner", initial: "RG" },
+        { name: "Alex Rivers", email: "alex@example.com", role: "Admin", initial: "AR" },
+        { name: "Dev Ops", email: "devops@example.com", role: "Viewer", initial: "DO" },
+    ];
+
+    const filteredMembers = members.filter(m =>
+        m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.email.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const handleInvite = (e: React.FormEvent) => {
         e.preventDefault();
@@ -104,11 +121,7 @@ export function DashboardTeams() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                    { name: "RAM GAWAS", email: "ram@example.com", role: "Owner", initial: "RG" },
-                    { name: "Alex Rivers", email: "alex@example.com", role: "Admin", initial: "AR" },
-                    { name: "Dev Ops", email: "devops@example.com", role: "Viewer", initial: "DO" },
-                ].map((member, i) => (
+                {filteredMembers.length > 0 ? filteredMembers.map((member, i) => (
                     <div key={i} className="bg-card border border-border p-5 rounded-xl flex items-center justify-between group hover:border-primary/20 transition-all">
                         <div className="flex items-center gap-4">
                             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
@@ -149,7 +162,11 @@ export function DashboardTeams() {
                             </DropdownMenu>
                         </div>
                     </div>
-                ))}
+                )) : (
+                    <div className="col-span-full py-12 text-center text-muted-foreground italic bg-card border border-dashed rounded-xl">
+                        No team members matching "{searchQuery}"
+                    </div>
+                )}
             </div>
         </div>
     );

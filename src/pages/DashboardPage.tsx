@@ -54,6 +54,10 @@ const DashboardPage = () => {
               externalSearchQuery={searchQuery}
               onSearchChange={setSearchQuery}
             />
+          ) : activePage === 'teams' ? (
+            <DashboardTeams
+              externalSearchQuery={searchQuery}
+            />
           ) : (
             <ActiveComponent />
           )}

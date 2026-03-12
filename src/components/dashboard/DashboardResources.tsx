@@ -40,6 +40,7 @@ export function DashboardResources({
     const [activeFilter, setActiveFilter] = useState("All");
     const [isTelemetryLoading, setIsTelemetryLoading] = useState(false);
     const [showTelemetry, setShowTelemetry] = useState(false);
+    const [selectedResource, setSelectedResource] = useState<any>(null);
 
     const baseResources = [
         { name: "prod-api-cluster", type: "EKS Cluster", region: "us-east-1", account: "AWS-Main", status: "Healthy" },
@@ -142,7 +143,11 @@ export function DashboardResources({
                             </thead>
                             <tbody className="divide-y divide-border">
                                 {filteredResources.length > 0 ? filteredResources.map((item, i) => (
-                                    <tr key={i} className="hover:bg-muted/30 transition-colors">
+                                    <tr
+                                        key={i}
+                                        className="hover:bg-muted/30 transition-colors cursor-pointer group"
+                                        onClick={() => setSelectedResource(item)}
+                                    >
                                         <td className="px-6 py-4 font-medium flex items-center gap-2">
                                             <Server className="w-3.5 h-3.5 text-primary" /> {item.name}
                                         </td>
