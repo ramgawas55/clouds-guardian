@@ -14,7 +14,7 @@ export function CTASection() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link to="/dashboard">
-            <Button variant="hero" size="xl">Start Free Scan</Button>
+            <Button variant="hero" size="xl">Run a Scan</Button>
           </Link>
           <Link to="/contact">
             <Button variant="hero-outline" size="xl">Book a Demo</Button>

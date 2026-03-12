@@ -8,21 +8,21 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-border bg-transparent text-foreground hover:bg-secondary hover:border-primary/30",
+        outline: "border border-border bg-transparent text-foreground hover:bg-secondary hover:text-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-secondary hover:text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 font-semibold",
-        "hero-outline": "border border-border bg-transparent text-foreground hover:bg-secondary hover:border-primary/40 font-semibold",
+        hero: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm font-semibold",
+        "hero-outline": "border border-primary/20 bg-transparent text-foreground hover:bg-secondary/50 font-semibold",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-12 rounded-lg px-8 text-base",
-        xl: "h-14 rounded-lg px-10 text-base",
-        icon: "h-10 w-10",
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3",
+        lg: "h-10 rounded-md px-8",
+        xl: "h-12 rounded-md px-10 text-base",
+        icon: "h-9 w-9",
       },
     },
     defaultVariants: {
@@ -34,7 +34,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 

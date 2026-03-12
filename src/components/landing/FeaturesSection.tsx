@@ -24,8 +24,8 @@ export function FeaturesSection() {
     <Section id="features">
       <SectionHeader
         badge="Features"
-        title="Built for the people who actually manage cloud infrastructure."
-        description="Not another fancy dashboard you'll never open. These are tools that help you do something about waste."
+        title="Core capabilities"
+        description="A focused toolset built to identify exactly where resources are overprovisioned."
       />
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {features.map((f) => (

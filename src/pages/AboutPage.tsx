@@ -12,10 +12,10 @@ const principles = [
 ];
 
 const timeline = [
-  { year: "2023", event: "Started the company after watching teams waste $2M+ a year on idle cloud resources and not even know it." },
-  { year: "2024", event: "Built out multi-cloud support for AWS, Azure, and GCP. Added Kubernetes waste analysis because everyone asked for it." },
-  { year: "2025", event: "Crossed 500 engineering teams using the platform. Identified over $40M in annual savings across our user base." },
-  { year: "2026", event: "Working on automated remediation, policy enforcement, and deeper FinOps workflows. Lots more coming." },
+  { year: "2023", event: "Noticed how often companies leave unused resources running after deployments. Wrote a quick diagnostic script." },
+  { year: "2024", event: "Expanded the script into a multi-cloud scanning tool. Started automating the detection of idle EC2 instances and unattached EBS." },
+  { year: "2025", event: "Packaged the tool into a full application with actionable rightsizing and waste reduction workflows." },
+  { year: "2026", event: "Refining the UI to look more custom, polishing the UX, and adding tighter cloud integrations." },
 ];
 
 const AboutPage = () => {
@@ -74,22 +74,18 @@ const AboutPage = () => {
         </Section>
 
         <Section>
-          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">The team</h2>
-          <div className="grid sm:grid-cols-3 gap-5 max-w-3xl mx-auto">
-            {[
-              { name: "Raj Mehta", role: "CEO & Co-founder", bg: "Former SRE who got tired of manually auditing cloud spend every quarter." },
-              { name: "Elena Voronova", role: "CTO & Co-founder", bg: "Spent 6 years at AWS, then built cost tooling internally at two startups." },
-              { name: "James Okafor", role: "VP Engineering", bg: "Led platform engineering at two public companies. Cares a lot about clean infrastructure." },
-            ].map((p) => (
-              <div key={p.name} className="bg-card border border-border rounded-lg p-6 text-center">
-                <div className="w-14 h-14 rounded-full bg-secondary mx-auto mb-4 flex items-center justify-center text-lg font-bold text-muted-foreground">
-                  {p.name.split(" ").map((n) => n[0]).join("")}
-                </div>
-                <h3 className="font-semibold text-foreground text-sm">{p.name}</h3>
-                <p className="text-xs text-primary mb-1">{p.role}</p>
-                <p className="text-xs text-muted-foreground">{p.bg}</p>
+          <h2 className="text-2xl font-bold text-foreground mb-8 text-center">The author</h2>
+          <div className="flex justify-center">
+            <div className="bg-card border border-border rounded-lg p-8 text-center max-w-sm w-full">
+              <div className="w-16 h-16 rounded-full bg-primary/10 mx-auto mb-4 flex items-center justify-center text-xl font-bold text-primary">
+                RG
               </div>
-            ))}
+              <h3 className="font-semibold text-foreground text-base">RAM GAWAS</h3>
+              <p className="text-xs text-primary mb-3">Developer & Creator</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                I build tools that solve specific engineering friction. I wanted a cloud leak detector that felt like an actual utility, not a spreadsheet replacement.
+              </p>
+            </div>
           </div>
         </Section>
 

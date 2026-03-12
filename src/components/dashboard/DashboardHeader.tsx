@@ -22,7 +22,7 @@ export function DashboardHeader({ onMenuToggle }: { onMenuToggle: () => void }) 
         </button>
         <div className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-secondary cursor-pointer">
           <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">JD</div>
-          <span className="hidden sm:block text-xs text-foreground">Acme Corp</span>
+          <span className="hidden sm:block text-xs text-foreground">RAM GAWAS</span>
           <ChevronDown className="w-3 h-3 text-muted-foreground" />
         </div>
       </div>

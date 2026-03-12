@@ -4,7 +4,6 @@ const footerLinks = {
   Product: [
     { label: "Features", href: "/#features" },
     { label: "Integrations", href: "/#integrations" },
-    { label: "Pricing", href: "/pricing" },
     { label: "Dashboard", href: "/dashboard" },
   ],
   Company: [
@@ -40,7 +39,7 @@ export function Footer() {
               <span className="text-sm">CCLD</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Cloud Cost Leak Detector helps engineering teams find and eliminate hidden cloud waste across AWS, Azure, and GCP.
+              A custom-built cloud cost detection tool to optimize AWS, Azure, and GCP resources without the noise.
             </p>
           </div>
           {Object.entries(footerLinks).map(([category, links]) => (
@@ -66,9 +65,9 @@ export function Footer() {
             © {new Date().getFullYear()} Cloud Cost Leak Detector. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
-            Made by{" "}
+            Designed & Developed by{" "}
             <a href="https://ramgawas55.in" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">
-              Ram Gawas
+              RAM GAWAS
             </a>
           </p>
           <div className="flex items-center gap-4">

@@ -8,7 +8,6 @@ const navLinks = [
   { label: "Product", href: "/#features" },
   { label: "Features", href: "/#features" },
   { label: "Integrations", href: "/#integrations" },
-  { label: "Pricing", href: "/pricing" },
   { label: "Docs", href: "/docs" },
   { label: "FAQ", href: "/#faq" },
 ];
@@ -30,9 +29,8 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/90 backdrop-blur-xl border-b border-border" : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-xl border-b border-border" : "bg-transparent"
+        }`}
     >
       <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg tracking-tight text-foreground">
@@ -60,7 +58,7 @@ export function Navbar() {
             <Button variant="ghost" size="sm">Book Demo</Button>
           </Link>
           <Link to="/dashboard">
-            <Button variant="hero" size="sm">Start Free Scan</Button>
+            <Button variant="hero" size="sm">Run a Scan</Button>
           </Link>
         </div>
 
@@ -95,7 +93,7 @@ export function Navbar() {
                   <Button variant="outline" className="w-full">Book Demo</Button>
                 </Link>
                 <Link to="/dashboard">
-                  <Button variant="hero" className="w-full">Start Free Scan</Button>
+                  <Button variant="hero" className="w-full">Run a Scan</Button>
                 </Link>
               </div>
             </div>

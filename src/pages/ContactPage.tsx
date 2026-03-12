@@ -67,7 +67,7 @@ const ContactPage = () => {
               >
                 <Field label="Your Name" name="name" placeholder="Jane Smith" />
                 <Field label="Work Email" name="email" type="email" placeholder="jane@company.com" />
-                <Field label="Company" name="company" placeholder="Acme Inc." />
+                <Field label="Company" name="company" placeholder="Your Company" />
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-xs text-muted-foreground mb-1.5 block">Which clouds do you use?</label>

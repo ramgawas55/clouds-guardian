@@ -26,9 +26,9 @@ export function SolutionSection() {
   return (
     <Section id="solution">
       <SectionHeader
-        badge="How It Works"
-        title="See exactly where your money is going."
-        description="Three steps. No complicated onboarding. No disruptions to your team."
+        badge="How it works"
+        title="Automated cloud auditing"
+        description="A straightforward pipeline to detect unattached assets and idle compute."
       />
       <div className="grid md:grid-cols-3 gap-6">
         {steps.map((s) => (

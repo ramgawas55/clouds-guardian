@@ -4,7 +4,7 @@ const integrations = [
   { name: "GCP", status: "Pending", account: "project-gcp-dev", statusColor: "text-warning" },
   { name: "Slack", status: "Connected", account: "#cloud-alerts", statusColor: "text-success" },
   { name: "Microsoft Teams", status: "Disconnected", account: "—", statusColor: "text-muted-foreground" },
-  { name: "Webhooks", status: "Connected", account: "https://hooks.acme.io/ccld", statusColor: "text-success" },
+  { name: "Webhooks", status: "Connected", account: "https://api.yourcompany.com/webhooks", statusColor: "text-success" },
 ];
 
 const btnLabel: Record<string, string> = {
@@ -27,9 +27,8 @@ export function DashboardIntegrations() {
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-semibold text-foreground">{i.name}</h3>
               <span className={`text-[10px] font-medium ${i.statusColor}`}>
-                <span className={`inline-block w-1.5 h-1.5 rounded-full mr-1 ${
-                  i.status === "Connected" ? "bg-success" : i.status === "Pending" ? "bg-warning" : "bg-muted-foreground"
-                }`} />
+                <span className={`inline-block w-1.5 h-1.5 rounded-full mr-1 ${i.status === "Connected" ? "bg-success" : i.status === "Pending" ? "bg-warning" : "bg-muted-foreground"
+                  }`} />
                 {i.status}
               </span>
             </div>
