@@ -79,28 +79,43 @@ export function IntegrationConnectModal({
                             {step === 1 && (
                                 <div className="space-y-4">
                                     <div className="bg-muted p-3 rounded-lg border border-border">
-                                        <p className="text-xs font-medium mb-2">Step 1: Create IAM Role</p>
-                                        <p className="text-[11px] text-muted-foreground leading-relaxed">
-                                            Create a new role in your AWS Console with "ReadOnlyAccess".
-                                            Use the Account ID below as the Trusted Entity.
+                                        <p className="text-xs font-medium mb-2">Step 1: Select Trusted Entity</p>
+                                        <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
+                                            In the AWS Console, select <strong>AWS account</strong> as the trusted entity type.
+                                            Choose <strong>Another AWS account</strong> and enter the ID below:
                                         </p>
-                                        <div className="mt-3 flex items-center justify-between bg-background border border-border p-2 rounded text-xs">
-                                            <code className="font-mono">123456789012</code>
-                                            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleCopy("123456789012")}>
+                                        <div className="flex items-center justify-between bg-background border border-border p-2 rounded text-xs mb-3">
+                                            <code className="font-mono">891377313063</code>
+                                            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleCopy("891377313063")}>
+                                                <Copy className="h-3 w-3" />
+                                            </Button>
+                                        </div>
+                                        <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
+                                            Check the box for <strong>Require external ID</strong> and use:
+                                        </p>
+                                        <div className="flex items-center justify-between bg-background border border-border p-2 rounded text-xs">
+                                            <code className="font-mono">cg-prod-8f2e9a</code>
+                                            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleCopy("cg-prod-8f2e9a")}>
                                                 <Copy className="h-3 w-3" />
                                             </Button>
                                         </div>
                                     </div>
-                                    <Button className="w-full" onClick={handleNext}>Next Step <ChevronRight className="ml-2 h-4 w-4" /></Button>
+                                    <Button className="w-full" onClick={handleNext}>Next: Add Permissions <ChevronRight className="ml-2 h-4 w-4" /></Button>
                                 </div>
                             )}
                             {step === 2 && (
                                 <div className="space-y-4">
+                                    <div className="bg-muted p-3 rounded-lg border border-border mb-2">
+                                        <p className="text-xs font-medium mb-2">Step 2: Add Permissions</p>
+                                        <p className="text-[11px] text-muted-foreground leading-relaxed">
+                                            Search for and attach the <strong>ReadOnlyAccess</strong> managed policy to this role.
+                                        </p>
+                                    </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="role-arn" className="text-xs">Step 2: Enter Role ARN</Label>
+                                        <Label htmlFor="role-arn" className="text-xs font-medium">Step 3: Role ARN</Label>
                                         <Input
                                             id="role-arn"
-                                            placeholder="arn:aws:iam::...:role/CloudGuardianReadOnly"
+                                            placeholder="arn:aws:iam::...:role/CloudGuardianAccess"
                                             value={configValue}
                                             onChange={(e) => setConfigValue(e.target.value)}
                                             className="text-xs"
@@ -109,13 +124,13 @@ export function IntegrationConnectModal({
                                     <div className="bg-primary/5 p-3 rounded-lg flex gap-3 items-start border border-primary/10">
                                         <AlertCircle className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                                         <p className="text-[10px] text-muted-foreground leading-relaxed">
-                                            We only require read-only permissions to audit your resources. We will never modify or delete your infrastructure.
+                                            Ensure the role name is descriptive (e.g., <code>CloudGuardianAccess</code>) so you can identify it later.
                                         </p>
                                     </div>
                                     <div className="flex gap-2">
                                         <Button variant="outline" className="w-full" onClick={() => setStep(1)}>Back</Button>
                                         <Button className="w-full" onClick={handleConnect} disabled={isSubmitting}>
-                                            {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Connecting...</> : "Verify & Connect"}
+                                            {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Verifying...</> : "Finish Connection"}
                                         </Button>
                                     </div>
                                 </div>
