@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { ShieldAlert, ExternalLink, AlertCircle, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { LeakResolveModal } from "./LeakResolveModal";
 
 export function DashboardLeaks() {
   const [isConnected, setIsConnected] = useState(false);
+  const [selectedLeak, setSelectedLeak] = useState<any | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("ccl-connected-integrations");
@@ -44,11 +46,24 @@ export function DashboardLeaks() {
               </div>
               <div className="text-right">
                 <p className="text-sm font-bold text-foreground">{leak.cost}</p>
-                <Button variant="ghost" size="sm" className="h-7 text-[10px] mt-1">Resolve</Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 text-[10px] mt-1"
+                  onClick={() => setSelectedLeak(leak)}
+                >
+                  Resolve
+                </Button>
               </div>
             </div>
           ))}
         </div>
+
+        <LeakResolveModal
+          isOpen={!!selectedLeak}
+          onClose={() => setSelectedLeak(null)}
+          leak={selectedLeak}
+        />
       </div>
     );
   }

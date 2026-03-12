@@ -8,6 +8,8 @@ import { DashboardKubernetes } from "@/components/dashboard/DashboardKubernetes"
 import { DashboardReports } from "@/components/dashboard/DashboardReports";
 import { DashboardIntegrations } from "@/components/dashboard/DashboardIntegrations";
 import { DashboardSettings } from "@/components/dashboard/DashboardSettings";
+import { DashboardResources } from "@/components/dashboard/DashboardResources";
+import { DashboardTeams } from "@/components/dashboard/DashboardTeams";
 
 const pages: Record<string, React.ComponentType> = {
   overview: DashboardOverview,
@@ -17,6 +19,8 @@ const pages: Record<string, React.ComponentType> = {
   reports: DashboardReports,
   integrations: DashboardIntegrations,
   settings: DashboardSettings,
+  resources: DashboardResources,
+  teams: DashboardTeams,
 };
 
 const DashboardPage = () => {
