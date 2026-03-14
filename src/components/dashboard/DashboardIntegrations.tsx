@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { IntegrationConnectModal } from "./IntegrationConnectModal";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { RefreshCcw, AlertCircle } from "lucide-react";
 
 const integrationTypes = [
@@ -17,6 +17,8 @@ const integrationTypes = [
 export function DashboardIntegrations() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
+  const queryClient = useQueryClient();
+
   const { data: connectedList = [], isLoading, error, refetch } = useQuery({
     queryKey: ['connected-integrations'],
     queryFn: async () => {
@@ -26,11 +28,14 @@ export function DashboardIntegrations() {
       }
       return response.json();
     },
-    retry: 1
+    retry: 1,
+    staleTime: Infinity
   });
 
   const handleConnected = () => {
-    refetch();
+    if (activeModal) {
+      queryClient.setQueryData(['connected-integrations'], (old: string[] = []) => [...old, activeModal]);
+    }
     setActiveModal(null);
   };
 
@@ -43,7 +48,7 @@ export function DashboardIntegrations() {
       });
       if (!response.ok) throw new Error('Failed to disconnect');
       toast.success(`${name} disconnected`);
-      refetch();
+      queryClient.setQueryData(['connected-integrations'], (old: string[] = []) => old.filter((n) => n !== name));
     } catch (err: any) {
       toast.error(`Failed to disconnect ${name}`, { description: err.message });
     }

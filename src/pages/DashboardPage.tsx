@@ -35,7 +35,8 @@ const DashboardPage = () => {
       if (!response.ok) throw new Error('Failed to fetch integrations.');
       return response.json();
     },
-    retry: 1
+    retry: 1,
+    staleTime: Infinity
   });
 
   const isConnected = connectedList.length > 0;

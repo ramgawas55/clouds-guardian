@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 const iconMap: Record<string, any> = {
@@ -25,14 +25,16 @@ export function DashboardHeader({
   onSearchChange?: (val: string) => void;
 }) {
   const { user, logout } = useAuth();
+  const queryClient = useQueryClient();
 
-  const { data: notifications = [], isLoading, refetch } = useQuery({
+  const { data: notifications = [], isLoading } = useQuery({
     queryKey: ['user-notifications'],
     queryFn: async () => {
       const res = await fetch('/.netlify/functions/notifications');
       if (!res.ok) throw new Error('Failed to fetch');
       return res.json();
-    }
+    },
+    staleTime: Infinity
   });
 
   const handleClearNotifications = async () => {
@@ -40,7 +42,7 @@ export function DashboardHeader({
       const res = await fetch('/.netlify/functions/notifications-clear', { method: 'POST' });
       if (!res.ok) throw new Error('Failed to clear notifications');
       toast.success('Notifications cleared');
-      refetch();
+      queryClient.setQueryData(['user-notifications'], []);
     } catch (err: any) {
       toast.error('Could not clear notifications', { description: err.message });
     }
