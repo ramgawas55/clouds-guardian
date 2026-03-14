@@ -1,0 +1,1 @@
+export const handler = async (event) => ({ statusCode: 200, body: JSON.stringify([ { id: 1, name: 'Alex DevOps', email: 'alex@example.com', role: 'Admin', status: 'Active', lastActive: '2 mins ago' }, { id: 2, name: 'Sam Security', email: 'sam@example.com', role: 'Viewer', status: 'Active', lastActive: '1 hr ago' } ]) });

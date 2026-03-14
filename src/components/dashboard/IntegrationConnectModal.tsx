@@ -37,20 +37,32 @@ export function IntegrationConnectModal({
 
     const handleNext = () => setStep(step + 1);
 
-    const handleConnect = () => {
+    const handleConnect = async () => {
         if (!configValue && (integrationName === "AWS" || integrationName === "Slack")) {
             toast.error("Please provide the required configuration");
             return;
         }
 
         setIsSubmitting(true);
-        // Simulate API call
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            const response = await fetch('/.netlify/functions/integrations-connect', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ integration: integrationName, config: configValue })
+            });
+
+            if (!response.ok) throw new Error('Failed to connect integration');
+
             onConnected(integrationName!);
             toast.success(`${integrationName} connected successfully`);
             reset();
-        }, 1500);
+        } catch (err: any) {
+            toast.error(`Failed to connect ${integrationName}`, {
+                description: err.message || "An unknown error occurred."
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const reset = () => {

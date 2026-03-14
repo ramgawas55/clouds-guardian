@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { IntegrationConnectModal } from "./IntegrationConnectModal";
+import { useQuery } from "@tanstack/react-query";
+import { RefreshCcw, AlertCircle } from "lucide-react";
 
 const integrationTypes = [
   { name: "AWS", description: "Connect via read-only IAM role" },
@@ -14,28 +16,60 @@ const integrationTypes = [
 
 export function DashboardIntegrations() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [connectedList, setConnectedList] = useState<string[]>([]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("ccl-connected-integrations");
-    if (saved) setConnectedList(JSON.parse(saved));
-  }, []);
+  const { data: connectedList = [], isLoading, error, refetch } = useQuery({
+    queryKey: ['connected-integrations'],
+    queryFn: async () => {
+      const response = await fetch('/.netlify/functions/integrations');
+      if (!response.ok) {
+        throw new Error('Failed to fetch integrations.');
+      }
+      return response.json();
+    },
+    retry: 1
+  });
 
-  const handleConnected = (name: string) => {
-    const newList = [...connectedList, name];
-    setConnectedList(newList);
-    localStorage.setItem("ccl-connected-integrations", JSON.stringify(newList));
-    window.dispatchEvent(new Event("storage"));
+  const handleConnected = () => {
+    refetch();
     setActiveModal(null);
   };
 
-  const handleDisconnect = (name: string) => {
-    const newList = connectedList.filter(i => i !== name);
-    setConnectedList(newList);
-    localStorage.setItem("ccl-connected-integrations", JSON.stringify(newList));
-    window.dispatchEvent(new Event("storage"));
-    toast.success(`${name} disconnected`);
+  const handleDisconnect = async (name: string) => {
+    try {
+      const response = await fetch('/.netlify/functions/integrations-disconnect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ integration: name })
+      });
+      if (!response.ok) throw new Error('Failed to disconnect');
+      toast.success(`${name} disconnected`);
+      refetch();
+    } catch (err: any) {
+      toast.error(`Failed to disconnect ${name}`, { description: err.message });
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6 flex flex-col items-center justify-center min-h-[400px]">
+        <RefreshCcw className="w-8 h-8 text-primary animate-spin" />
+        <p className="text-muted-foreground">Loading integrations...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6 flex flex-col items-center justify-center min-h-[400px] bg-red-500/5 rounded-xl border border-red-500/20 p-8 text-center">
+        <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+        <h2 className="text-xl font-bold text-foreground mb-2">Error Loading Integrations</h2>
+        <p className="text-muted-foreground max-w-md mb-6">{(error as Error).message || "An unknown error occurred"}</p>
+        <Button onClick={() => refetch()} variant="outline" className="gap-2">
+          <RefreshCcw className="w-4 h-4" /> Try Again
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

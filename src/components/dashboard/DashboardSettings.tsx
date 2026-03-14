@@ -1,26 +1,60 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { RefreshCcw, AlertCircle, Loader2 } from "lucide-react";
 
 export function DashboardSettings() {
-  const [settings, setSettings] = useState(() => {
-    const saved = localStorage.getItem("ccl-user-settings");
-    return saved ? JSON.parse(saved) : {
-      scanFrequency: "Daily",
-      wasteThreshold: "$25/month",
-      idleWindow: "14 days",
-      alerts: {
-        leaks: true,
-        digest: true,
-        budget: true,
-        completion: false
+  const { data: fetchedSettings, isLoading, error, refetch } = useQuery({
+    queryKey: ['user-settings'],
+    queryFn: async () => {
+      const response = await fetch('/.netlify/functions/user-settings');
+      if (!response.ok) {
+        throw new Error('Failed to fetch settings.');
       }
-    };
+      return response.json();
+    },
+    retry: 1
   });
 
-  const handleSave = () => {
-    localStorage.setItem("ccl-user-settings", JSON.stringify(settings));
-    toast.success("Settings saved successfully.");
+  const defaultSettings = {
+    scanFrequency: "Daily",
+    wasteThreshold: "$25/month",
+    idleWindow: "14 days",
+    alerts: {
+      leaks: true,
+      digest: true,
+      budget: true,
+      completion: false
+    }
+  };
+
+  const [settings, setSettings] = useState(defaultSettings);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (fetchedSettings) {
+      setSettings(fetchedSettings);
+    }
+  }, [fetchedSettings]);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const response = await fetch('/.netlify/functions/user-settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings)
+      });
+      if (!response.ok) throw new Error('Failed to save settings');
+      toast.success("Settings saved successfully.");
+    } catch (err: any) {
+      toast.error("Error saving settings", {
+        description: err.message || "An unknown error occurred."
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const updateSetting = (key: string, value: any) => {
@@ -34,6 +68,28 @@ export function DashboardSettings() {
     }));
   };
 
+  if (isLoading) {
+    return (
+      <div className="space-y-6 flex flex-col items-center justify-center min-h-[400px]">
+        <RefreshCcw className="w-8 h-8 text-primary animate-spin" />
+        <p className="text-muted-foreground">Loading settings...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6 flex flex-col items-center justify-center min-h-[400px] bg-red-500/5 rounded-xl border border-red-500/20 p-8 text-center">
+        <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+        <h2 className="text-xl font-bold text-foreground mb-2">Error Loading Settings</h2>
+        <p className="text-muted-foreground max-w-md mb-6">{(error as Error).message || "An unknown error occurred"}</p>
+        <Button onClick={() => refetch()} variant="outline" className="gap-2">
+          <RefreshCcw className="w-4 h-4" /> Try Again
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -41,7 +97,9 @@ export function DashboardSettings() {
           <h1 className="text-xl font-bold text-foreground">Settings</h1>
           <p className="text-xs text-muted-foreground">Configure scanning, notifications, and preferences</p>
         </div>
-        <Button onClick={handleSave} size="sm">Save Changes</Button>
+        <Button onClick={handleSave} size="sm" disabled={isSaving}>
+          {isSaving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Saving...</> : "Save Changes"}
+        </Button>
       </div>
 
       <SettingsCard title="Scan Configuration">

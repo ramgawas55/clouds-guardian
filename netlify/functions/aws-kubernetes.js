@@ -1,0 +1,1 @@
+export const handler = async (event) => ({ statusCode: 200, body: JSON.stringify([ { id: 1, name: 'prod-cluster-1', nodes: 12, status: 'Healthy', efficiency: 85, cost: '$1,200' }, { id: 2, name: 'dev-cluster-eks', nodes: 3, status: 'Warning', efficiency: 42, cost: '$450' } ]) });

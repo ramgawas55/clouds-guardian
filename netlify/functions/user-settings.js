@@ -1,0 +1,1 @@
+export const handler = async (event) => { if (event.httpMethod === 'POST') return { statusCode: 200, body: '{"success": true}' }; return { statusCode: 200, body: JSON.stringify({ scanFrequency: 'Daily', wasteThreshold: '$25/month', idleWindow: '14 days', alerts: { leaks: true, digest: true, budget: true, completion: false } }) }; };

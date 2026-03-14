@@ -1,0 +1,1 @@
+export const handler = async (event) => ({ statusCode: 200, body: JSON.stringify(Array.from({length: 24}, (_, i) => ({ time: i + ':00', cpu: Math.max(10, Math.random() * 80), memory: Math.max(30, Math.random() * 90), network: Math.random() * 1000 }))) });

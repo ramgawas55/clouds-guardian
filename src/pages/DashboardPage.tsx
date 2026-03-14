@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
@@ -27,23 +28,17 @@ const DashboardPage = () => {
   const [activePage, setActivePage] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isConnected, setIsConnected] = useState(false);
+  const { data: connectedList = [] } = useQuery({
+    queryKey: ['connected-integrations'],
+    queryFn: async () => {
+      const response = await fetch('/.netlify/functions/integrations');
+      if (!response.ok) throw new Error('Failed to fetch integrations.');
+      return response.json();
+    },
+    retry: 1
+  });
 
-  useEffect(() => {
-    const checkConnection = () => {
-      const saved = localStorage.getItem("ccl-connected-integrations");
-      if (saved) {
-        const list = JSON.parse(saved);
-        setIsConnected(list.length > 0);
-      } else {
-        setIsConnected(false);
-      }
-    };
-
-    checkConnection();
-    window.addEventListener("storage", checkConnection);
-    return () => window.removeEventListener("storage", checkConnection);
-  }, []);
+  const isConnected = connectedList.length > 0;
 
   const ActiveComponent = pages[activePage] || DashboardOverview;
 

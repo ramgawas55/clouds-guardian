@@ -31,15 +31,31 @@ export function LeakResolveModal({ isOpen, onClose, leak }: LeakResolveModalProp
         toast.success("Command copied to clipboard");
     };
 
-    const handleResolve = () => {
+    const handleResolve = async () => {
         setIsResolved(true);
-        toast.success("Resolution request sent", {
-            description: `The request to resolve ${leak.resource} has been queued.`,
-        });
-        setTimeout(() => {
-            onClose();
+        try {
+            const response = await fetch('/.netlify/functions/aws-leaks-resolve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ resource: leak.resource })
+            });
+
+            if (!response.ok) throw new Error('Failed to resolve leak');
+
+            toast.success("Resolution request sent", {
+                description: `The request to resolve ${leak.resource} has been queued.`,
+            });
+
+            setTimeout(() => {
+                onClose();
+                setIsResolved(false);
+            }, 1000);
+        } catch (err: any) {
+            toast.error("Resolution failed", {
+                description: err.message || "Could not resolve the selected resource."
+            });
             setIsResolved(false);
-        }, 2000);
+        }
     };
 
     return (

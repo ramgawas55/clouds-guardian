@@ -1,0 +1,1 @@
+export const handler = async (event) => ({ statusCode: 200, body: JSON.stringify([ { id: 1, title: 'Unattached EBS Volume', severity: 'High', resource: 'vol-0a1b2c3d4e5f6g7h8', cost: '$45/mo' }, { id: 2, title: 'Idle RDS Instance', severity: 'Warning', resource: 'db-prod-eu-west-1', cost: '$120/mo' } ]) });
