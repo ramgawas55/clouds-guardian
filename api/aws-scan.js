@@ -1,1 +1,0 @@
-export const handler = async (event) => { if (req.method !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' }; return res.status().json(); };

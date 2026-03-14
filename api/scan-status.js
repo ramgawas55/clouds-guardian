@@ -1,1 +1,0 @@
-export const handler = async (event) => ({ statusCode: 200, body: JSON.stringify({ lastScan: 'Just now', status: 'ok' }) });

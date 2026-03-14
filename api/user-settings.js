@@ -1,1 +1,0 @@
-export const handler = async (event) => { if (req.method === 'POST') return { statusCode: 200, body: '{"success": true}' }; return res.status().json(); };

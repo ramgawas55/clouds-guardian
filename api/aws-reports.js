@@ -1,1 +1,0 @@
-export const handler = async (event) => ({ statusCode: 200, body: JSON.stringify([ { id: 1, name: 'Q3 Cost Analysis', type: 'Cost', date: '2026-10-01', status: 'Ready', size: '2.4 MB' }, { id: 2, name: 'Security Audit', type: 'Security', date: '2026-10-15', status: 'Ready', size: '1.1 MB' } ]) });

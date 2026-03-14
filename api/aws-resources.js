@@ -1,1 +1,0 @@
-export const handler = async (event) => ({ statusCode: 200, body: JSON.stringify([ { id: 'i-0a1b2c', type: 'EC2 Instance', name: 'web-prod-1', status: 'Running', region: 'us-east-1', cost: '$120/mo', tags: { env: 'prod' } }, { id: 'vol-9d8e7f', type: 'EBS Volume', name: 'db-data', status: 'In Use', region: 'us-east-1', cost: '$45/mo', tags: { env: 'prod' } } ]) });
