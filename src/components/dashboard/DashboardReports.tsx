@@ -8,7 +8,7 @@ export function DashboardReports({ isConnected }: { isConnected?: boolean }) {
   const { data: reports, isLoading, error, refetch } = useQuery({
     queryKey: ['aws-dashboard-reports'],
     queryFn: async () => {
-      const response = await fetch('/.netlify/functions/aws-reports');
+      const response = await fetch('/api/aws-reports');
       if (!response.ok) {
         throw new Error('Failed to fetch reports.');
       }
@@ -27,7 +27,7 @@ export function DashboardReports({ isConnected }: { isConnected?: boolean }) {
 
     try {
       // Simulate real API request
-      const response = await fetch('/.netlify/functions/aws-reports-export', {
+      const response = await fetch('/api/aws-reports-export', {
         method: 'POST',
         body: JSON.stringify({ type, reportId })
       });
@@ -47,7 +47,7 @@ export function DashboardReports({ isConnected }: { isConnected?: boolean }) {
     setIsGenerating(true);
     toast.info("Generating Current State report...");
     try {
-      const response = await fetch('/.netlify/functions/aws-reports-generate', { method: 'POST' });
+      const response = await fetch('/api/aws-reports-generate', { method: 'POST' });
       if (!response.ok) throw new Error('Generation failed');
 
       toast.success("Success", { description: "Current State report generated." });

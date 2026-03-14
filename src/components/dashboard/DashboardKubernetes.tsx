@@ -7,7 +7,7 @@ export function DashboardKubernetes({ isConnected }: { isConnected?: boolean }) 
   const { data: clusters, isLoading, error, refetch } = useQuery({
     queryKey: ['aws-dashboard-kubernetes'],
     queryFn: async () => {
-      const response = await fetch('/.netlify/functions/aws-kubernetes');
+      const response = await fetch('/api/aws-kubernetes');
       if (!response.ok) {
         throw new Error('Failed to fetch Kubernetes cluster data.');
       }
@@ -104,7 +104,7 @@ export function DashboardKubernetes({ isConnected }: { isConnected?: boolean }) 
                 <div className="flex justify-between items-center mt-4">
                   <span className="text-[10px] text-muted-foreground italic">Approx. savings: {cluster.waste}</span>
                   <Button size="sm" variant="outline" className="h-8 text-[10px]" onClick={() => {
-                    toast.promise(fetch('/.netlify/functions/aws-kubernetes-optimize', { method: 'POST', body: JSON.stringify({ cluster: cluster.name }) }), {
+                    toast.promise(fetch('/api/aws-kubernetes-optimize', { method: 'POST', body: JSON.stringify({ cluster: cluster.name }) }), {
                       loading: `Analyzing ${cluster.name}...`,
                       success: 'Optimization recommendations generated!',
                       error: 'Failed to generate recommendations'

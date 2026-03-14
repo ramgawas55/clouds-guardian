@@ -53,7 +53,7 @@ export function DashboardTeams({
     const { data: members = [], isLoading, error, refetch } = useQuery({
         queryKey: ['workspace-teams'],
         queryFn: async () => {
-            const response = await fetch('/.netlify/functions/teams');
+            const response = await fetch('/api/teams');
             if (!response.ok) {
                 throw new Error('Failed to fetch team members.');
             }
@@ -75,7 +75,7 @@ export function DashboardTeams({
         });
 
         try {
-            const response = await fetch('/.netlify/functions/teams-invite', {
+            const response = await fetch('/api/teams-invite', {
                 method: 'POST',
                 body: JSON.stringify({ email: inviteEmail, name: inviteName, role: inviteRole })
             });
@@ -215,7 +215,7 @@ export function DashboardTeams({
                                         className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
                                         onSelect={async () => {
                                             try {
-                                                const res = await fetch('/.netlify/functions/teams-remove', { method: 'POST', body: JSON.stringify({ email: member.email }) });
+                                                const res = await fetch('/api/teams-remove', { method: 'POST', body: JSON.stringify({ email: member.email }) });
                                                 if (!res.ok) throw new Error('Failed to remove member');
                                                 toast.success(`Removed ${member.name} from workspace`);
                                                 refetch();

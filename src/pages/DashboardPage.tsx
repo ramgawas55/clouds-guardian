@@ -31,7 +31,7 @@ const DashboardPage = () => {
   const { data: connectedList = [] } = useQuery({
     queryKey: ['connected-integrations'],
     queryFn: async () => {
-      const response = await fetch('/.netlify/functions/integrations');
+      const response = await fetch('/api/integrations');
       if (!response.ok) throw new Error('Failed to fetch integrations.');
       return response.json();
     },

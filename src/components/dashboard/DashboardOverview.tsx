@@ -14,7 +14,7 @@ export function DashboardOverview({ onConnectClick, onNavigate, isConnected }: P
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['aws-dashboard-overview'],
     queryFn: async () => {
-      const response = await fetch('/.netlify/functions/aws-dashboard');
+      const response = await fetch('/api/aws-dashboard');
       if (!response.ok) {
         throw new Error('Failed to fetch AWS data. Make sure your AWS credentials are valid.');
       }
@@ -33,7 +33,7 @@ export function DashboardOverview({ onConnectClick, onNavigate, isConnected }: P
     });
 
     try {
-      const response = await fetch('/.netlify/functions/aws-scan', { method: 'POST' });
+      const response = await fetch('/api/aws-scan', { method: 'POST' });
       if (!response.ok) throw new Error('Scan failed');
 
       const resData = await response.json();

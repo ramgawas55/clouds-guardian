@@ -22,7 +22,7 @@ export function DashboardIntegrations() {
   const { data: connectedList = [], isLoading, error, refetch } = useQuery({
     queryKey: ['connected-integrations'],
     queryFn: async () => {
-      const response = await fetch('/.netlify/functions/integrations');
+      const response = await fetch('/api/integrations');
       if (!response.ok) {
         throw new Error('Failed to fetch integrations.');
       }
@@ -41,7 +41,7 @@ export function DashboardIntegrations() {
 
   const handleDisconnect = async (name: string) => {
     try {
-      const response = await fetch('/.netlify/functions/integrations-disconnect', {
+      const response = await fetch('/api/integrations-disconnect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ integration: name })

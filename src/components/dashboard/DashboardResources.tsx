@@ -46,7 +46,7 @@ export function DashboardResources({
     const { data: baseResources = [], isLoading, error, refetch } = useQuery({
         queryKey: ['aws-dashboard-resources'],
         queryFn: async () => {
-            const response = await fetch('/.netlify/functions/aws-resources');
+            const response = await fetch('/api/aws-resources');
             if (!response.ok) {
                 throw new Error('Failed to fetch AWS resources.');
             }
@@ -74,7 +74,7 @@ export function DashboardResources({
         });
 
         try {
-            const response = await fetch('/.netlify/functions/aws-resource-telemetry', {
+            const response = await fetch('/api/aws-resource-telemetry', {
                 method: 'POST',
                 body: JSON.stringify({ resourceId: selectedResource?.name })
             });

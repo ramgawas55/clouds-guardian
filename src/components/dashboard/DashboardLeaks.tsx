@@ -11,7 +11,7 @@ export function DashboardLeaks({ isConnected }: { isConnected?: boolean }) {
   const { data: leaks, isLoading, error, refetch } = useQuery({
     queryKey: ['aws-dashboard-leaks'],
     queryFn: async () => {
-      const response = await fetch('/.netlify/functions/aws-leaks');
+      const response = await fetch('/api/aws-leaks');
       if (!response.ok) {
         throw new Error('Failed to fetch leak data.');
       }

@@ -45,7 +45,7 @@ export function IntegrationConnectModal({
 
         setIsSubmitting(true);
         try {
-            const response = await fetch('/.netlify/functions/integrations-connect', {
+            const response = await fetch('/api/integrations-connect', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ integration: integrationName, config: configValue })

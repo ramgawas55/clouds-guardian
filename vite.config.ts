@@ -3,24 +3,25 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from 'url';
-import { createRequire } from 'module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const require = createRequire(import.meta.url);
 
-const netlifyFunctionsPlugin = () => ({
-  name: 'netlify-functions',
+// Very simple middleware that executes our local API mock scripts
+const localApiPlugin = () => ({
+  name: 'vercel-api-mock',
   configureServer(server: any) {
     server.middlewares.use(async (req: any, res: any, next: any) => {
-      if (req.url.startsWith('/.netlify/functions/')) {
-        const functionName = req.url.split('/')[3].split('?')[0];
-        const funcPath = path.resolve(__dirname, 'netlify/functions', `${functionName}.js`);
+      if (req.url.startsWith('/api/')) {
+        const functionName = req.url.split('/')[2].split('?')[0];
+        const funcPath = path.resolve(__dirname, 'api', `${functionName}.js`);
 
         if (fs.existsSync(funcPath)) {
           try {
-            delete require.cache[require.resolve(funcPath)];
-            const func = require(funcPath);
+            // For ES Modules, we usually have to dynamic import or transpile. 
+            // In Vite dev server, we can just grab it dynamically:
+            const moduleUrl = new URL(`file://${funcPath}`).href;
+            const func = await import(`${moduleUrl}?update=${Date.now()}`);
 
             let body = '';
             if (req.method === 'POST' || req.method === 'PUT') {
@@ -31,18 +32,23 @@ const netlifyFunctionsPlugin = () => ({
               });
             }
 
-            const event = {
-              path: req.url,
-              httpMethod: req.method,
-              queryStringParameters: {},
+            const mockReq = {
+              method: req.method,
+              url: req.url,
               body: body
             };
 
-            const result = await func.handler(event, {});
+            const mockRes = {
+              status: (code: number) => ({
+                json: (data: any) => {
+                  res.statusCode = code;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify(data));
+                }
+              })
+            };
 
-            res.statusCode = result.statusCode || 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(result.body);
+            await func.default(mockReq, mockRes);
             return;
           } catch (e: any) {
             console.error(e);
@@ -65,7 +71,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    netlifyFunctionsPlugin()
+    localApiPlugin()
   ],
   resolve: {
     alias: {

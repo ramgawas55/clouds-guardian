@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import GoTrue, { User } from 'gotrue-js';
 import { toast } from "sonner";
 
-// Initialize the Netlify Identity client using gotrue-js
-export const netlifyAuth = new GoTrue({
-    APIUrl: import.meta.env.VITE_NETLIFY_IDENTITY_URL || 'https://roaring-melba-75e05a.netlify.app/.netlify/identity',
-    audience: '',
-    setCookie: true,
-});
+export interface User {
+    id: string;
+    email: string;
+    user_metadata: {
+        full_name: string;
+    };
+}
 
 interface AuthContextType {
     user: User | null;
@@ -26,76 +26,87 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Check for an existing session on load
-        const user = netlifyAuth.currentUser();
-        if (user) {
-            setUser(user);
-        }
-        setIsLoading(false);
+        // Mock session check
+        setTimeout(() => {
+            const savedSession = localStorage.getItem('cloud_guardian_session');
+            if (savedSession) {
+                try {
+                    setUser(JSON.parse(savedSession));
+                } catch (e) { }
+            }
+            setIsLoading(false);
+        }, 300);
     }, []);
 
     const login = async (email: string, password: string) => {
-        try {
-            setIsLoading(true);
-            const user = await netlifyAuth.login(email, password, true);
-            setUser(user);
-        } catch (error: any) {
-            console.error("Login Error:", error);
-            throw error;
-        } finally {
+        setIsLoading(true);
+        // Simulate network
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        // Mock generic successful login logic
+        if (!email || !password) {
             setIsLoading(false);
+            throw new Error("Invalid credentials");
         }
+
+        const newUser: User = {
+            id: 'mock-usr-' + Date.now(),
+            email: email,
+            user_metadata: {
+                full_name: email.split('@')[0].toUpperCase(),
+            }
+        };
+
+        localStorage.setItem('cloud_guardian_session', JSON.stringify(newUser));
+        setUser(newUser);
+        setIsLoading(false);
     };
 
     const logout = async () => {
-        try {
-            const user = netlifyAuth.currentUser();
-            if (user) {
-                await user.logout();
-            }
-            setUser(null);
-        } catch (error) {
-            console.error("Logout Error:", error);
-            toast.error("Failed to safely log out.");
-        }
+        localStorage.removeItem('cloud_guardian_session');
+        setUser(null);
+        toast.info("Logged out safely.");
     };
 
     const requestPasswordRecovery = async (email: string) => {
-        try {
-            setIsLoading(true);
-            await netlifyAuth.requestPasswordRecovery(email);
-        } catch (error: any) {
-            console.error("Recovery Request Error:", error);
-            throw error;
-        } finally {
-            setIsLoading(false);
-        }
+        setIsLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 800));
+        setIsLoading(false);
+        // Does nothing locally, just simulates wait
     };
 
     const recoverPassword = async (token: string, password: string) => {
-        try {
-            setIsLoading(true);
-            const user = await netlifyAuth.recover(token, password, true);
-            setUser(user);
-        } catch (error: any) {
-            console.error("Password Recovery Error:", error);
-            throw error;
-        } finally {
-            setIsLoading(false);
-        }
+        setIsLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        const newUser: User = {
+            id: 'mock-usr-' + Date.now(),
+            email: 'admin@cloudguardian.io',
+            user_metadata: {
+                full_name: 'Admin User',
+            }
+        };
+
+        localStorage.setItem('cloud_guardian_session', JSON.stringify(newUser));
+        setUser(newUser);
+        setIsLoading(false);
     };
 
     const acceptInvite = async (token: string, password: string) => {
-        try {
-            setIsLoading(true);
-            const user = await netlifyAuth.acceptInvite(token, password, true);
-            setUser(user);
-        } catch (error: any) {
-            console.error("Invite Acceptance Error:", error);
-            throw error;
-        } finally {
-            setIsLoading(false);
-        }
+        setIsLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        const newUser: User = {
+            id: 'mock-usr-' + Date.now(),
+            email: 'invited_user@cloudguardian.io',
+            user_metadata: {
+                full_name: 'Invited User',
+            }
+        };
+
+        localStorage.setItem('cloud_guardian_session', JSON.stringify(newUser));
+        setUser(newUser);
+        setIsLoading(false);
     };
 
     return (

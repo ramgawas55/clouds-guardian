@@ -8,7 +8,7 @@ export function DashboardSettings() {
   const { data: fetchedSettings, isLoading, error, refetch } = useQuery({
     queryKey: ['user-settings'],
     queryFn: async () => {
-      const response = await fetch('/.netlify/functions/user-settings');
+      const response = await fetch('/api/user-settings');
       if (!response.ok) {
         throw new Error('Failed to fetch settings.');
       }
@@ -41,7 +41,7 @@ export function DashboardSettings() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const response = await fetch('/.netlify/functions/user-settings', {
+      const response = await fetch('/api/user-settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings)

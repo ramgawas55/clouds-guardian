@@ -27,7 +27,7 @@ export function DashboardSidebar({ active, onNavigate, open, onToggle }: Props) 
   const { data: scanStatus, isLoading } = useQuery({
     queryKey: ['scan-status'],
     queryFn: async () => {
-      const res = await fetch('/.netlify/functions/scan-status');
+      const res = await fetch('/api/scan-status');
       if (!res.ok) throw new Error('Failed to fetch');
       return res.json();
     },

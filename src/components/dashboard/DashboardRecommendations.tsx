@@ -22,7 +22,7 @@ export function DashboardRecommendations({ isConnected }: { isConnected?: boolea
   const { data: recommendations, isLoading, error, refetch } = useQuery({
     queryKey: ['aws-dashboard-recommendations'],
     queryFn: async () => {
-      const response = await fetch('/.netlify/functions/aws-recommendations');
+      const response = await fetch('/api/aws-recommendations');
       if (!response.ok) {
         throw new Error('Failed to fetch recommendations.');
       }

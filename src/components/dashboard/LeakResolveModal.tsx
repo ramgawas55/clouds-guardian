@@ -34,7 +34,7 @@ export function LeakResolveModal({ isOpen, onClose, leak }: LeakResolveModalProp
     const handleResolve = async () => {
         setIsResolved(true);
         try {
-            const response = await fetch('/.netlify/functions/aws-leaks-resolve', {
+            const response = await fetch('/api/aws-leaks-resolve', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ resource: leak.resource })

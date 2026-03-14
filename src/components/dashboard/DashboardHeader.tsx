@@ -30,7 +30,7 @@ export function DashboardHeader({
   const { data: notifications = [], isLoading } = useQuery({
     queryKey: ['user-notifications'],
     queryFn: async () => {
-      const res = await fetch('/.netlify/functions/notifications');
+      const res = await fetch('/api/notifications');
       if (!res.ok) throw new Error('Failed to fetch');
       return res.json();
     },
@@ -39,7 +39,7 @@ export function DashboardHeader({
 
   const handleClearNotifications = async () => {
     try {
-      const res = await fetch('/.netlify/functions/notifications-clear', { method: 'POST' });
+      const res = await fetch('/api/notifications-clear', { method: 'POST' });
       if (!res.ok) throw new Error('Failed to clear notifications');
       toast.success('Notifications cleared');
       queryClient.setQueryData(['user-notifications'], []);
