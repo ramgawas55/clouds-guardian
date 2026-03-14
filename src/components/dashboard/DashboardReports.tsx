@@ -27,9 +27,7 @@ export function DashboardReports({ isConnected }: { isConnected?: boolean }) {
 
     try {
       // Simulate real API request
-      const response = await fetch('/api/aws-reports-export', {
-        method: 'POST',
-        body: JSON.stringify({ type, reportId })
+      const response = await MOCK_API.post('aws-reports-export', {})
       });
       if (!response.ok) throw new Error('Failed to export');
 
@@ -47,7 +45,7 @@ export function DashboardReports({ isConnected }: { isConnected?: boolean }) {
     setIsGenerating(true);
     toast.info("Generating Current State report...");
     try {
-      const response = await fetch('/api/aws-reports-generate', { method: 'POST' });
+      const response = await MOCK_API.post('aws-reports-generate', {});
       if (!response.ok) throw new Error('Generation failed');
 
       toast.success("Success", { description: "Current State report generated." });
@@ -155,3 +153,4 @@ export function DashboardReports({ isConnected }: { isConnected?: boolean }) {
     </div>
   );
 }
+

@@ -122,3 +122,4 @@ export function DashboardLeaks({ isConnected }: { isConnected?: boolean }) {
     </div>
   );
 }
+

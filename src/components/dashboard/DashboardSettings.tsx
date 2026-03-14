@@ -179,3 +179,4 @@ function SettingToggle({ label, enabled, onToggle }: { label: string; enabled: b
     </div>
   );
 }
+

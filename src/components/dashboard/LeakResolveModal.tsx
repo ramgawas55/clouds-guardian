@@ -122,3 +122,4 @@ export function LeakResolveModal({ isOpen, onClose, leak }: LeakResolveModalProp
         </Dialog>
     );
 }
+

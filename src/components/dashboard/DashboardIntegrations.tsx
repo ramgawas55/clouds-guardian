@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { MOCK_API } from "@/lib/api-mocks";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { IntegrationConnectModal } from "./IntegrationConnectModal";
@@ -22,11 +23,12 @@ export function DashboardIntegrations() {
   const { data: connectedList = [], isLoading, error, refetch } = useQuery({
     queryKey: ['connected-integrations'],
     queryFn: async () => {
-      const response = await fetch('/api/integrations');
-      if (!response.ok) {
-        throw new Error('Failed to fetch integrations.');
+      const response: any = await MOCK_API.get('integrations');
+      // Format the mock response properly so the dashboard reads it
+      if (Array.isArray(response)) {
+        return response.map((r: any) => r.name);
       }
-      return response.json();
+      return [];
     },
     retry: 1,
     staleTime: Infinity
@@ -41,12 +43,7 @@ export function DashboardIntegrations() {
 
   const handleDisconnect = async (name: string) => {
     try {
-      const response = await fetch('/api/integrations-disconnect', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ integration: name })
-      });
-      if (!response.ok) throw new Error('Failed to disconnect');
+      await MOCK_API.post('integrations-disconnect', { integration: name });
       toast.success(`${name} disconnected`);
       queryClient.setQueryData(['connected-integrations'], (old: string[] = []) => old.filter((n) => n !== name));
     } catch (err: any) {
@@ -122,3 +119,4 @@ export function DashboardIntegrations() {
     </div>
   );
 }
+

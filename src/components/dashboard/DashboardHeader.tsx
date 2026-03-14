@@ -39,7 +39,7 @@ export function DashboardHeader({
 
   const handleClearNotifications = async () => {
     try {
-      const res = await fetch('/api/notifications-clear', { method: 'POST' });
+      const res = await MOCK_API.post('notifications-clear', {});
       if (!res.ok) throw new Error('Failed to clear notifications');
       toast.success('Notifications cleared');
       queryClient.setQueryData(['user-notifications'], []);
@@ -126,3 +126,4 @@ export function DashboardHeader({
     </header>
   );
 }
+

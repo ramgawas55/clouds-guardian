@@ -123,3 +123,4 @@ export function DashboardRecommendations({ isConnected }: { isConnected?: boolea
     </div>
   );
 }
+

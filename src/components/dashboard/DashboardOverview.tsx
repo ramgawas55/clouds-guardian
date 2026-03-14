@@ -33,7 +33,7 @@ export function DashboardOverview({ onConnectClick, onNavigate, isConnected }: P
     });
 
     try {
-      const response = await fetch('/api/aws-scan', { method: 'POST' });
+      const response = await MOCK_API.post('aws-scan', {});
       if (!response.ok) throw new Error('Scan failed');
 
       const resData = await response.json();
@@ -179,3 +179,4 @@ export function DashboardOverview({ onConnectClick, onNavigate, isConnected }: P
     </div>
   );
 }
+

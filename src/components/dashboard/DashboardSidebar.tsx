@@ -82,3 +82,4 @@ export function DashboardSidebar({ active, onNavigate, open, onToggle }: Props) 
     </aside>
   );
 }
+

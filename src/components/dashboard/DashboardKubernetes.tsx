@@ -126,3 +126,4 @@ export function DashboardKubernetes({ isConnected }: { isConnected?: boolean }) 
     </div>
   );
 }
+

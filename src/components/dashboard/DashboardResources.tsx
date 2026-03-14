@@ -74,9 +74,7 @@ export function DashboardResources({
         });
 
         try {
-            const response = await fetch('/api/aws-resource-telemetry', {
-                method: 'POST',
-                body: JSON.stringify({ resourceId: selectedResource?.name })
+            const response = await MOCK_API.post('aws-resource-telemetry', {})
             });
 
             if (!response.ok) throw new Error('Telemetry fetch failed');
@@ -379,3 +377,4 @@ export function DashboardResources({
         </div>
     );
 }
+
